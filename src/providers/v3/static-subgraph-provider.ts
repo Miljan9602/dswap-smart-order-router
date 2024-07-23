@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { ChainId, Token } from '@uniswap/sdk-core';
-import { FeeAmount, Pool } from '@uniswap/v3-sdk';
+import { ChainId, Token } from '@miljan9602/dswap-sdk-core';
+import { FeeAmount, Pool } from '@miljan9602/dswap-v3-sdk';
 import JSBI from 'jsbi';
 import _ from 'lodash';
 
@@ -44,13 +44,15 @@ import {
   USDC_OPTIMISM,
   USDC_OPTIMISM_GOERLI,
   USDC_POLYGON,
-  USDC_SEPOLIA, USDC_ZKSYNC, USDCE_ZKSYNC,
+  USDC_SEI_MAINNET,
+  USDC_SEPOLIA,
   USDT_ARBITRUM,
   USDT_BNB,
   USDT_GOERLI,
   USDT_MAINNET,
   USDT_OPTIMISM,
   USDT_OPTIMISM_GOERLI,
+  USDT_SEI_MAINNET,
   WBTC_ARBITRUM,
   WBTC_GNOSIS,
   WBTC_GOERLI,
@@ -66,18 +68,43 @@ import {
 
 import { IV3PoolProvider } from './pool-provider';
 import { IV3SubgraphProvider, V3SubgraphPool } from './subgraph-provider';
-
-type ChainTokenList = {
-  readonly [chainId in ChainId]: Token[];
-};
-
-const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
+const BASES_TO_CHECK_TRADES_AGAINST: {
+  [ChainId.BASE]: Token[];
+  [ChainId.BNB]: Token[];
+  [ChainId.AVALANCHE]: Token[];
+  [ChainId.CELO_ALFAJORES]: Token[];
+  [ChainId.ZORA]: Token[];
+  [ChainId.CELO]: Token[];
+  [ChainId.MOONBEAM]: Token[];
+  [ChainId.SEPOLIA]: Token[];
+  [ChainId.OPTIMISM_SEPOLIA]: Token[];
+  [ChainId.MAINNET]: Token[];
+  [ChainId.GNOSIS]: Token[];
+  [ChainId.BLAST]: Token[];
+  [ChainId.OPTIMISM_GOERLI]: Token[];
+  [ChainId.POLYGON_MUMBAI]: Token[];
+  [ChainId.GOERLI]: Token[];
+  [ChainId.ARBITRUM_SEPOLIA]: Token[];
+  [ChainId.POLYGON]: Token[];
+  [ChainId.ARBITRUM_GOERLI]: Token[];
+  [ChainId.ARBITRUM_ONE]: Token[];
+  [ChainId.BASE_GOERLI]: Token[];
+  [ChainId.ZORA_SEPOLIA]: Token[];
+  [ChainId.ROOTSTOCK]: Token[];
+  [ChainId.OPTIMISM]: Token[]
+  [ChainId.SEI_MAINNET]: Token[]
+} = {
   [ChainId.MAINNET]: [
     WRAPPED_NATIVE_CURRENCY[ChainId.MAINNET]!,
     DAI_MAINNET,
     USDC_MAINNET,
     USDT_MAINNET,
     WBTC_MAINNET,
+  ],
+  [ChainId.SEI_MAINNET]: [
+    WRAPPED_NATIVE_CURRENCY[ChainId.SEI_MAINNET]!,
+    USDC_SEI_MAINNET,
+    USDT_SEI_MAINNET
   ],
   [ChainId.GOERLI]: [
     WRAPPED_NATIVE_CURRENCY[ChainId.GOERLI]!,
@@ -165,8 +192,7 @@ const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
   [ChainId.ZORA]: [WRAPPED_NATIVE_CURRENCY[ChainId.ZORA]!],
   [ChainId.ZORA_SEPOLIA]: [WRAPPED_NATIVE_CURRENCY[ChainId.ZORA_SEPOLIA]!],
   [ChainId.ROOTSTOCK]: [WRAPPED_NATIVE_CURRENCY[ChainId.ROOTSTOCK]!],
-  [ChainId.BLAST]: [WRAPPED_NATIVE_CURRENCY[ChainId.BLAST]!, USDB_BLAST],
-  [ChainId.ZKSYNC]: [WRAPPED_NATIVE_CURRENCY[ChainId.ZKSYNC]!, USDCE_ZKSYNC, USDC_ZKSYNC],
+  [ChainId.BLAST]: [WRAPPED_NATIVE_CURRENCY[ChainId.BLAST]!, USDB_BLAST]
 };
 
 /**
@@ -196,14 +222,14 @@ export class StaticV3SubgraphProvider implements IV3SubgraphProvider {
 
     const basePairs: [Token, Token][] = _.flatMap(
       bases,
-      (base): [Token, Token][] => bases.map((otherBase) => [base, otherBase])
+      (base): [Token, Token][] => bases.map((otherBase: any) => [base, otherBase])
     );
 
     if (tokenIn && tokenOut) {
       basePairs.push(
         [tokenIn, tokenOut],
-        ...bases.map((base): [Token, Token] => [tokenIn, base]),
-        ...bases.map((base): [Token, Token] => [tokenOut, base])
+        ...bases.map((base: Token): [Token, Token] => [tokenIn, base]),
+        ...bases.map((base: Token): [Token, Token] => [tokenOut, base])
       );
     }
 

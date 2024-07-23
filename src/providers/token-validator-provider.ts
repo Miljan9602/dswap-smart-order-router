@@ -1,12 +1,14 @@
-import { ChainId, Token } from '@uniswap/sdk-core';
+import { ChainId, Token } from '@miljan9602/dswap-sdk-core';
 import _ from 'lodash';
 
-import { ITokenValidator__factory } from '../types/other/factories/ITokenValidator__factory';
+import {
+  ITokenValidator__factory
+} from '../types/other/factories/ITokenValidator__factory';
 import {
   log,
   metric,
   MetricLoggerUnit,
-  WRAPPED_NATIVE_CURRENCY,
+  WRAPPED_NATIVE_CURRENCY
 } from '../util';
 
 import { ICache } from './cache';

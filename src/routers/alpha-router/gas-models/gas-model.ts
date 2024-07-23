@@ -2,10 +2,10 @@ import { BigNumber } from '@ethersproject/bignumber';
 import {
   ChainId,
   CurrencyAmount as CurrencyAmountRaw,
-  Token,
-} from '@uniswap/sdk-core';
-import { Pair } from '@uniswap/v2-sdk';
-import { Pool } from '@uniswap/v3-sdk';
+  Token
+} from '@miljan9602/dswap-sdk-core';
+import { Pair } from '@miljan9602/dswap-v2-sdk';
+import { Pool } from '@miljan9602/dswap-v3-sdk';
 
 import { ProviderConfig } from '../../../providers/provider';
 import {
@@ -20,7 +20,8 @@ import {
   DAI_OPTIMISM_GOERLI,
   DAI_OPTIMISM_SEPOLIA,
   DAI_POLYGON_MUMBAI,
-  DAI_SEPOLIA, DAI_ZKSYNC, USDB_BLAST,
+  DAI_SEPOLIA,
+  USDB_BLAST,
   USDC_ARBITRUM,
   USDC_ARBITRUM_GOERLI,
   USDC_ARBITRUM_SEPOLIA,
@@ -42,24 +43,23 @@ import {
   USDC_OPTIMISM,
   USDC_OPTIMISM_GOERLI,
   USDC_OPTIMISM_SEPOLIA,
-  USDC_POLYGON,
+  USDC_POLYGON, USDC_SEI_MAINNET,
   USDC_SEPOLIA,
   USDC_WORMHOLE_CELO,
-  USDC_ZKSYNC,
-  USDC_ZORA, USDCE_ZKSYNC,
+  USDC_ZORA,
   USDT_ARBITRUM,
   USDT_BNB,
   USDT_GOERLI,
   USDT_MAINNET,
   USDT_OPTIMISM,
   USDT_OPTIMISM_GOERLI,
-  USDT_OPTIMISM_SEPOLIA,
+  USDT_OPTIMISM_SEPOLIA, USDT_SEI_MAINNET,
   WBTC_GOERLI
 } from '../../../providers/token-provider';
 import { IV2PoolProvider } from '../../../providers/v2/pool-provider';
 import {
   ArbitrumGasData,
-  IL2GasDataProvider,
+  IL2GasDataProvider
 } from '../../../providers/v3/gas-data-provider';
 import { WRAPPED_NATIVE_CURRENCY } from '../../../util';
 import { CurrencyAmount } from '../../../util/amounts';
@@ -67,7 +67,7 @@ import {
   MixedRouteWithValidQuote,
   RouteWithValidQuote,
   V2RouteWithValidQuote,
-  V3RouteWithValidQuote,
+  V3RouteWithValidQuote
 } from '../entities/route-with-valid-quote';
 
 // When adding new usd gas tokens, ensure the tokens are ordered
@@ -75,6 +75,7 @@ import {
 // DAI_AVAX has 18 decimals and comes before USDC_AVAX which has 6 decimals.
 export const usdGasTokensByChain: { [chainId in ChainId]?: Token[] } = {
   [ChainId.MAINNET]: [DAI_MAINNET, USDC_MAINNET, USDT_MAINNET],
+  [ChainId.SEI_MAINNET]: [USDC_SEI_MAINNET, USDT_SEI_MAINNET],
   [ChainId.ARBITRUM_ONE]: [
     DAI_ARBITRUM,
     USDC_ARBITRUM,
@@ -116,8 +117,7 @@ export const usdGasTokensByChain: { [chainId in ChainId]?: Token[] } = {
   ],
   [ChainId.BASE]: [USDC_BASE, USDC_NATIVE_BASE],
   [ChainId.BLAST]: [USDB_BLAST],
-  [ChainId.ZORA]: [USDC_ZORA],
-  [ChainId.ZKSYNC]: [DAI_ZKSYNC, USDCE_ZKSYNC, USDC_ZKSYNC],
+  [ChainId.ZORA]: [USDC_ZORA]
 };
 
 export type L1ToL2GasCosts = {

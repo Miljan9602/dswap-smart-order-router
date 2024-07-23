@@ -4,14 +4,14 @@
  * @export
  * @interface IRouteCachingProvider
  */
-import { Protocol } from '@uniswap/router-sdk';
+import { Protocol } from '@miljan9602/dswap-router-sdk';
 import {
   ChainId,
   Currency,
   CurrencyAmount,
   Token,
-  TradeType,
-} from '@uniswap/sdk-core';
+  TradeType
+} from '@miljan9602/dswap-sdk-core';
 
 import { CacheMode } from './model';
 import { CachedRoutes } from './model/cached-routes';

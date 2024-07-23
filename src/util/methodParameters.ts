@@ -2,15 +2,15 @@ import {
   MixedRouteSDK,
   Protocol,
   SwapRouter as SwapRouter02,
-  Trade,
-} from '@uniswap/router-sdk';
-import { ChainId, Currency, TradeType } from '@uniswap/sdk-core';
+  Trade
+} from '@miljan9602/dswap-router-sdk';
+import { ChainId, Currency, TradeType } from '@miljan9602/dswap-sdk-core';
 import {
   SwapRouter as UniversalRouter,
-  UNIVERSAL_ROUTER_ADDRESS,
-} from '@uniswap/universal-router-sdk';
-import { Route as V2RouteRaw } from '@uniswap/v2-sdk';
-import { Route as V3RouteRaw } from '@uniswap/v3-sdk';
+  UNIVERSAL_ROUTER_ADDRESS
+} from '@miljan9602/dswap-universal-router-sdk';
+import { Route as V2RouteRaw } from '@miljan9602/dswap-v2-sdk';
+import { Route as V3RouteRaw } from '@miljan9602/dswap-v3-sdk';
 import _ from 'lodash';
 
 import {
@@ -18,11 +18,11 @@ import {
   MethodParameters,
   MixedRouteWithValidQuote,
   RouteWithValidQuote,
+  SWAP_ROUTER_02_ADDRESSES,
   SwapOptions,
   SwapType,
-  SWAP_ROUTER_02_ADDRESSES,
   V2RouteWithValidQuote,
-  V3RouteWithValidQuote,
+  V3RouteWithValidQuote
 } from '..';
 
 export function buildTrade<TTradeType extends TradeType>(

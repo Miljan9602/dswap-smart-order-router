@@ -7,8 +7,8 @@ import {
   AllowanceTransfer,
   permit2Address,
   PermitSingle
-} from '@uniswap/permit2-sdk';
-import { Protocol } from '@uniswap/router-sdk';
+} from '@miljan9602/dswap-permit2-sdk';
+import { Protocol } from '@miljan9602/dswap-router-sdk';
 import {
   ChainId,
   Currency,
@@ -19,15 +19,15 @@ import {
   Rounding,
   Token,
   TradeType
-} from '@uniswap/sdk-core';
+} from '@miljan9602/dswap-sdk-core';
 import {
   UNIVERSAL_ROUTER_ADDRESS as UNIVERSAL_ROUTER_ADDRESS_BY_CHAIN
-} from '@uniswap/universal-router-sdk';
+} from '@miljan9602/dswap-universal-router-sdk';
 import {
   Permit2Permit
-} from '@uniswap/universal-router-sdk/dist/utils/inputTokens';
-import { Pair } from '@uniswap/v2-sdk';
-import { encodeSqrtRatioX96, FeeAmount, Pool } from '@uniswap/v3-sdk';
+} from '@miljan9602/dswap-universal-router-sdk/dist/utils/inputTokens';
+import { Pair } from '@miljan9602/dswap-v2-sdk';
+import { encodeSqrtRatioX96, FeeAmount, Pool } from '@miljan9602/dswap-v3-sdk';
 import bunyan from 'bunyan';
 import { BigNumber, providers, Wallet } from 'ethers';
 import { parseEther } from 'ethers/lib/utils';

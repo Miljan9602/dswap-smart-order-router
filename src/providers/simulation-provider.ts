@@ -1,5 +1,6 @@
 import { JsonRpcProvider } from '@ethersproject/providers';
-import { ChainId, TradeType } from '@uniswap/sdk-core';
+import { PERMIT2_ADDRESS } from '@miljan9602/dswap-permit2-sdk';
+import { ChainId, TradeType } from '@miljan9602/dswap-sdk-core';
 import { BigNumber } from 'ethers/lib/ethers';
 
 import {
@@ -13,7 +14,6 @@ import { Permit2__factory } from '../types/other/factories/Permit2__factory';
 import { CurrencyAmount, log, SWAP_ROUTER_02_ADDRESSES } from '../util';
 
 import { IPortionProvider } from './portion-provider';
-import { permit2Address } from '@uniswap/permit2-sdk';
 
 export type SimulationResult = {
   transaction: {
@@ -157,7 +157,7 @@ export abstract class Simulator {
     if (swapOptions.type == SwapType.UNIVERSAL_ROUTER) {
       const permit2Allowance = await tokenContract.allowance(
         fromAddress,
-        permit2Address(this.chainId)
+        PERMIT2_ADDRESS
       );
 
       // If a permit has been provided we don't need to check if UR has already been allowed.
@@ -176,7 +176,7 @@ export abstract class Simulator {
 
       // Check UR has been approved from Permit2.
       const permit2Contract = Permit2__factory.connect(
-        permit2Address(this.chainId),
+        PERMIT2_ADDRESS,
         provider
       );
 

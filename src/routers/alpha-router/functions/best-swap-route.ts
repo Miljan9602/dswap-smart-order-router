@@ -1,6 +1,6 @@
 import { BigNumber } from '@ethersproject/bignumber';
-import { Protocol } from '@uniswap/router-sdk';
-import { ChainId, TradeType } from '@uniswap/sdk-core';
+import { Protocol } from '@miljan9602/dswap-router-sdk';
+import { ChainId, TradeType } from '@miljan9602/dswap-sdk-core';
 import JSBI from 'jsbi';
 import _ from 'lodash';
 import FixedReverseHeap from 'mnemonist/fixed-reverse-heap';
@@ -19,7 +19,7 @@ import { IGasModel, L1ToL2GasCosts, usdGasTokensByChain } from '../gas-models';
 import {
   RouteWithValidQuote,
   V2RouteWithValidQuote,
-  V3RouteWithValidQuote,
+  V3RouteWithValidQuote
 } from './../entities/route-with-valid-quote';
 
 export type BestSwapRoute = {
@@ -590,12 +590,6 @@ export async function getBestSwapRouteBy(
           usdToken,
           routeWithValidQuote.gasCostInUSD.quotient
         );
-      }
-
-      if (decimalsDiff < 0 && chainId === 324) {
-          log.error(`Decimals diff is negative for ZkSync. This should not happen.
-          usdTokenDecimals ${usdTokenDecimals} routeWithValidQuote.gasCostInUSD.currency.decimals
-          ${routeWithValidQuote.gasCostInUSD.currency.decimals} ${JSON.stringify(routeWithValidQuote)}`);
       }
 
       return CurrencyAmount.fromRawAmount(

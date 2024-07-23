@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { ChainId, Token } from '@uniswap/sdk-core';
+import { ChainId, Token } from '@miljan9602/dswap-sdk-core';
 
 import {
   BTC_BNB,
@@ -13,9 +13,10 @@ import {
   USDC_BASE,
   USDC_BNB,
   USDC_MAINNET,
-  USDC_ZKSYNC, USDCE_ZKSYNC,
+  USDC_SEI_MAINNET,
   USDT_BNB,
   USDT_MAINNET,
+  USDT_SEI_MAINNET,
   WBTC_MAINNET,
   WMATIC_POLYGON,
   WMATIC_POLYGON_MUMBAI
@@ -30,6 +31,11 @@ export const BASES_TO_CHECK_TRADES_AGAINST = (
   _tokenProvider: ITokenProvider
 ): ChainTokenList => {
   return {
+    [ChainId.SEI_MAINNET]: [
+      WRAPPED_NATIVE_CURRENCY[ChainId.SEI_MAINNET]!,
+      USDC_SEI_MAINNET,
+      USDT_SEI_MAINNET
+    ],
     [ChainId.MAINNET]: [
       WRAPPED_NATIVE_CURRENCY[ChainId.MAINNET]!,
       DAI_MAINNET,
@@ -78,7 +84,6 @@ export const BASES_TO_CHECK_TRADES_AGAINST = (
     [ChainId.ZORA_SEPOLIA]: [WRAPPED_NATIVE_CURRENCY[ChainId.ZORA_SEPOLIA]!],
     [ChainId.ROOTSTOCK]: [WRAPPED_NATIVE_CURRENCY[ChainId.ROOTSTOCK]!],
     [ChainId.BLAST]: [WRAPPED_NATIVE_CURRENCY[ChainId.BLAST]!, USDB_BLAST],
-    [ChainId.ZKSYNC]: [WRAPPED_NATIVE_CURRENCY[ChainId.ZKSYNC]!, USDCE_ZKSYNC, USDC_ZKSYNC],
   };
 };
 

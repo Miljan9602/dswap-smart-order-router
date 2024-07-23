@@ -1,21 +1,13 @@
 import {
-  ChainId,
   CHAIN_TO_ADDRESSES_MAP,
+  ChainId,
   SWAP_ROUTER_02_ADDRESSES as SWAP_ROUTER_02_ADDRESSES_HELPER,
-  Token,
-} from '@uniswap/sdk-core';
-import { FACTORY_ADDRESS } from '@uniswap/v3-sdk';
+  Token
+} from '@miljan9602/dswap-sdk-core';
+import { FACTORY_ADDRESS } from '@miljan9602/dswap-v3-sdk';
 
 import { NETWORKS_WITH_SAME_UNISWAP_ADDRESSES } from './chains';
 
-export const BNB_TICK_LENS_ADDRESS =
-  CHAIN_TO_ADDRESSES_MAP[ChainId.BNB].tickLensAddress;
-export const BNB_NONFUNGIBLE_POSITION_MANAGER_ADDRESS =
-  CHAIN_TO_ADDRESSES_MAP[ChainId.BNB].nonfungiblePositionManagerAddress;
-export const BNB_SWAP_ROUTER_02_ADDRESS =
-  CHAIN_TO_ADDRESSES_MAP[ChainId.BNB].swapRouter02Address!;
-export const BNB_V3_MIGRATOR_ADDRESS =
-  CHAIN_TO_ADDRESSES_MAP[ChainId.BNB].v3MigratorAddress;
 
 export const V3_CORE_FACTORY_ADDRESSES: AddressMap = {
   ...constructSameAddressMap(FACTORY_ADDRESS),
@@ -40,7 +32,7 @@ export const V3_CORE_FACTORY_ADDRESSES: AddressMap = {
   [ChainId.BASE]: CHAIN_TO_ADDRESSES_MAP[ChainId.BASE].v3CoreFactoryAddress,
   [ChainId.BLAST]: CHAIN_TO_ADDRESSES_MAP[ChainId.BLAST].v3CoreFactoryAddress,
   [ChainId.ZORA]: CHAIN_TO_ADDRESSES_MAP[ChainId.ZORA].v3CoreFactoryAddress,
-  [ChainId.ZKSYNC]: CHAIN_TO_ADDRESSES_MAP[ChainId.ZKSYNC].v3CoreFactoryAddress,
+  [ChainId.SEI_MAINNET]: CHAIN_TO_ADDRESSES_MAP[ChainId.SEI_MAINNET].v3CoreFactoryAddress
   // TODO: Gnosis + Moonbeam contracts to be deployed
 };
 
@@ -65,7 +57,7 @@ export const QUOTER_V2_ADDRESSES: AddressMap = {
   [ChainId.BASE]: CHAIN_TO_ADDRESSES_MAP[ChainId.BASE].quoterAddress,
   [ChainId.BLAST]: CHAIN_TO_ADDRESSES_MAP[ChainId.BLAST].quoterAddress,
   [ChainId.ZORA]: CHAIN_TO_ADDRESSES_MAP[ChainId.ZORA].quoterAddress,
-  [ChainId.ZKSYNC]: CHAIN_TO_ADDRESSES_MAP[ChainId.ZKSYNC].quoterAddress,
+  [ChainId.SEI_MAINNET]: CHAIN_TO_ADDRESSES_MAP[ChainId.SEI_MAINNET].quoterAddress
   // TODO: Gnosis + Moonbeam contracts to be deployed
 };
 
@@ -82,15 +74,10 @@ export const NEW_QUOTER_V2_ADDRESSES: AddressMap = {
   [ChainId.BASE]: '0x222cA98F00eD15B1faE10B61c277703a194cf5d2',
   [ChainId.BLAST]: '0x9D0F15f2cf58655fDDcD1EE6129C547fDaeD01b1',
   [ChainId.ZORA]: '0x9D0F15f2cf58655fDDcD1EE6129C547fDaeD01b1',
-  [ChainId.ZKSYNC]: '0x071Bd2063dF031EDd110E27C6F4CDe50A3DeF2d4',
+  [ChainId.SEI_MAINNET]: '0x38A60FaC6EA7e3be9eb96E55945c576E7c31dbe9'
 };
 
-export const MIXED_ROUTE_QUOTER_V1_ADDRESSES: AddressMap = {
-  [ChainId.MAINNET]:
-    CHAIN_TO_ADDRESSES_MAP[ChainId.MAINNET].mixedRouteQuoterV1Address,
-  [ChainId.GOERLI]:
-    CHAIN_TO_ADDRESSES_MAP[ChainId.GOERLI].mixedRouteQuoterV1Address,
-};
+export const MIXED_ROUTE_QUOTER_V1_ADDRESSES: AddressMap = {};
 
 export const UNISWAP_MULTICALL_ADDRESSES: AddressMap = {
   ...constructSameAddressMap('0x1F98415757620B543A52E61c46B32eB19261F984'),
@@ -114,24 +101,14 @@ export const UNISWAP_MULTICALL_ADDRESSES: AddressMap = {
   [ChainId.BASE]: CHAIN_TO_ADDRESSES_MAP[ChainId.BASE].multicallAddress,
   [ChainId.BLAST]: CHAIN_TO_ADDRESSES_MAP[ChainId.BLAST].multicallAddress,
   [ChainId.ZORA]: CHAIN_TO_ADDRESSES_MAP[ChainId.ZORA].multicallAddress,
-  [ChainId.ZKSYNC]: CHAIN_TO_ADDRESSES_MAP[ChainId.ZKSYNC].multicallAddress,
-  // TODO: Gnosis + Moonbeam contracts to be deployed
+  [ChainId.SEI_MAINNET]: CHAIN_TO_ADDRESSES_MAP[ChainId.SEI_MAINNET].multicallAddress
 };
 
 export const SWAP_ROUTER_02_ADDRESSES= (chainId: number): string => {
-  return SWAP_ROUTER_02_ADDRESSES_HELPER(chainId) ?? '0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45';
+  return SWAP_ROUTER_02_ADDRESSES_HELPER(chainId) ?? '0xFcB324f3FBc123e672c935d47A2176c0f13F00e3';
 };
 
-export const OVM_GASPRICE_ADDRESS =
-  '0x420000000000000000000000000000000000000F';
 export const ARB_GASINFO_ADDRESS = '0x000000000000000000000000000000000000006C';
-export const TICK_LENS_ADDRESS =
-  CHAIN_TO_ADDRESSES_MAP[ChainId.ARBITRUM_ONE].tickLensAddress;
-export const NONFUNGIBLE_POSITION_MANAGER_ADDRESS =
-  CHAIN_TO_ADDRESSES_MAP[ChainId.MAINNET].nonfungiblePositionManagerAddress;
-export const V3_MIGRATOR_ADDRESS =
-  CHAIN_TO_ADDRESSES_MAP[ChainId.MAINNET].v3MigratorAddress;
-export const MULTICALL2_ADDRESS = '0x5BA1e12693Dc8F9c48aAD8770482f4739bEeD696';
 
 export type AddressMap = { [chainId: number]: string | undefined };
 
@@ -262,9 +239,9 @@ export const WETH9: {
     'WETH',
     'Wrapped Ether'
   ),
-  [ChainId.ZKSYNC]: new Token(
-    ChainId.ZKSYNC,
-    '0x5aea5775959fbc2557cc8789bc1bf90a239d9a91',
+  [ChainId.SEI_MAINNET]: new Token(
+    ChainId.SEI_MAINNET,
+    '0x027D2E627209f1cebA52ADc8A5aFE9318459b44B',
     18,
     'WETH',
     'Wrapped Ether'

@@ -1,4 +1,4 @@
-import { ChainId, Token } from '@uniswap/sdk-core';
+import { ChainId, Token } from '@miljan9602/dswap-sdk-core';
 import _ from 'lodash';
 
 import { log, WRAPPED_NATIVE_CURRENCY } from '../util';
@@ -40,14 +40,14 @@ import {
   USDC_OPTIMISM,
   USDC_OPTIMISM_GOERLI,
   USDC_OPTIMISM_SEPOLIA,
-  USDC_POLYGON,
+  USDC_POLYGON, USDC_SEI_MAINNET,
   USDC_SEPOLIA,
   USDT_ARBITRUM,
   USDT_BNB,
   USDT_MAINNET,
   USDT_OPTIMISM,
   USDT_OPTIMISM_GOERLI,
-  USDT_OPTIMISM_SEPOLIA,
+  USDT_OPTIMISM_SEPOLIA, USDT_SEI_MAINNET,
   WBTC_ARBITRUM,
   WBTC_MAINNET,
   WBTC_MOONBEAM,
@@ -55,7 +55,7 @@ import {
   WBTC_OPTIMISM_GOERLI,
   WBTC_OPTIMISM_SEPOLIA,
   WMATIC_POLYGON,
-  WMATIC_POLYGON_MUMBAI,
+  WMATIC_POLYGON_MUMBAI
 } from './token-provider';
 
 // These tokens will added to the Token cache on initialization.
@@ -168,8 +168,10 @@ export const CACHE_SEED_TOKENS: {
   [ChainId.ZORA]: {
     WETH: WRAPPED_NATIVE_CURRENCY[ChainId.ZORA],
   },
-  [ChainId.ZKSYNC]: {
-    WETH: WRAPPED_NATIVE_CURRENCY[ChainId.ZKSYNC],
+  [ChainId.SEI_MAINNET] : {
+    USDC: USDC_SEI_MAINNET,
+    USDT: USDT_SEI_MAINNET,
+    WETH: WRAPPED_NATIVE_CURRENCY[ChainId.SEI_MAINNET],
   },
   // Currently we do not have providers for Moonbeam mainnet or Gnosis testnet
 };

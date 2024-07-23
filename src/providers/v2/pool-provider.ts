@@ -1,15 +1,17 @@
 import { BigNumber } from '@ethersproject/bignumber';
-import { ChainId, Token } from '@uniswap/sdk-core';
-import { Pair } from '@uniswap/v2-sdk';
+import { ChainId, Token } from '@miljan9602/dswap-sdk-core';
+import { Pair } from '@miljan9602/dswap-v2-sdk';
 import retry, { Options as RetryOptions } from 'async-retry';
 import _ from 'lodash';
 
-import { IUniswapV2Pair__factory } from '../../types/v2/factories/IUniswapV2Pair__factory';
+import {
+  IDragonswapPair__factory
+} from '../../types/v2/factories/IDragonswapPair__factory';
 import {
   CurrencyAmount,
   ID_TO_NETWORK_NAME,
   metric,
-  MetricLoggerUnit,
+  MetricLoggerUnit
 } from '../../util';
 import { log } from '../../util/log';
 import { poolToString } from '../../util/routes';
@@ -276,7 +278,7 @@ export class V2PoolProvider implements IV2PoolProvider {
         TReturn
       >({
         addresses: poolAddresses,
-        contractInterface: IUniswapV2Pair__factory.createInterface(),
+        contractInterface: IDragonswapPair__factory.createInterface(),
         functionName: functionName,
         providerConfig,
       });

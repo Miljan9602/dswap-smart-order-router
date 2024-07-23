@@ -1,17 +1,17 @@
 import { BigNumber } from '@ethersproject/bignumber';
 import { JsonRpcProvider } from '@ethersproject/providers';
-import { ChainId } from '@uniswap/sdk-core';
+import { ChainId } from '@miljan9602/dswap-sdk-core';
 
 import {
   GasModelProviderConfig,
   SwapOptions,
   SwapRoute,
-  SwapType,
+  SwapType
 } from '../routers';
 import { BEACON_CHAIN_DEPOSIT_ADDRESS, log } from '../util';
 import {
   calculateGasUsed,
-  initSwapRouteFromExisting,
+  initSwapRouteFromExisting
 } from '../util/gas-factory-helpers';
 
 import { IPortionProvider } from './portion-provider';

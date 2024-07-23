@@ -1,12 +1,12 @@
 import { BigNumber } from '@ethersproject/bignumber';
-import { ZERO } from '@uniswap/router-sdk';
-import { Fraction, TradeType } from '@uniswap/sdk-core';
+import { ZERO } from '@miljan9602/dswap-router-sdk';
+import { Fraction, TradeType } from '@miljan9602/dswap-sdk-core';
 
 import {
   RouteWithValidQuote,
   SwapOptions,
   SwapOptionsUniversalRouter,
-  SwapType,
+  SwapType
 } from '../routers';
 import { CurrencyAmount } from '../util';
 

@@ -1,6 +1,7 @@
 import { BigNumber } from '@ethersproject/bignumber';
-import { ChainId, Price } from '@uniswap/sdk-core';
-import { Pool } from '@uniswap/v3-sdk';
+import { BaseProvider } from '@ethersproject/providers';
+import { ChainId, Price } from '@miljan9602/dswap-sdk-core';
+import { Pool } from '@miljan9602/dswap-v3-sdk';
 import _ from 'lodash';
 
 import { WRAPPED_NATIVE_CURRENCY } from '../../../..';
@@ -13,7 +14,7 @@ import {
   GasModelProviderConfig,
   getQuoteThroughNativePool,
   IGasModel,
-  IOnChainGasModelFactory,
+  IOnChainGasModelFactory
 } from '../gas-model';
 
 import {
@@ -22,9 +23,8 @@ import {
   COST_PER_INIT_TICK,
   COST_PER_UNINIT_TICK,
   SINGLE_HOP_OVERHEAD,
-  TOKEN_OVERHEAD,
+  TOKEN_OVERHEAD
 } from './gas-costs';
-import { BaseProvider } from '@ethersproject/providers';
 
 /**
  * Computes a gas estimate for a V3 swap using heuristics.

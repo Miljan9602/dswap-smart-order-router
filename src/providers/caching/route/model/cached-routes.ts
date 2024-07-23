@@ -1,12 +1,12 @@
-import { Protocol } from '@uniswap/router-sdk';
-import { ChainId, Token, TradeType } from '@uniswap/sdk-core';
+import { Protocol } from '@miljan9602/dswap-router-sdk';
+import { ChainId, Token, TradeType } from '@miljan9602/dswap-sdk-core';
 import _ from 'lodash';
 
 import {
   MixedRoute,
   RouteWithValidQuote,
   V2Route,
-  V3Route,
+  V3Route
 } from '../../../../routers';
 
 import { CachedRoute } from './cached-route';

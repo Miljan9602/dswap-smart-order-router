@@ -1,16 +1,26 @@
 import { BigNumber } from '@ethersproject/bignumber';
 import { BaseProvider, JsonRpcProvider } from '@ethersproject/providers';
-import DEFAULT_TOKEN_LIST from '@uniswap/default-token-list';
-import { Protocol, SwapRouter, Trade, ZERO } from '@uniswap/router-sdk';
+import {
+  Protocol,
+  SwapRouter,
+  Trade,
+  ZERO
+} from '@miljan9602/dswap-router-sdk';
 import {
   ChainId,
   Currency,
   Fraction,
   Token,
-  TradeType,
-} from '@uniswap/sdk-core';
+  TradeType
+} from '@miljan9602/dswap-sdk-core';
+import {
+  Pool,
+  Position,
+  SqrtPriceMath,
+  TickMath
+} from '@miljan9602/dswap-v3-sdk';
+import DEFAULT_TOKEN_LIST from '@uniswap/default-token-list';
 import { TokenList } from '@uniswap/token-lists';
-import { Pool, Position, SqrtPriceMath, TickMath } from '@uniswap/v3-sdk';
 import retry from 'async-retry';
 import JSBI from 'jsbi';
 import _ from 'lodash';
@@ -45,39 +55,39 @@ import {
   UniswapMulticallProvider,
   URISubgraphProvider,
   V2QuoteProvider,
-  V2SubgraphProviderWithFallBacks,
-  V3SubgraphProviderWithFallBacks,
+  V2SubgraphProviderWithFallBacks, V3SubgraphProvider,
+  V3SubgraphProviderWithFallBacks
 } from '../../providers';
 import {
   CachingTokenListProvider,
-  ITokenListProvider,
+  ITokenListProvider
 } from '../../providers/caching-token-list-provider';
 import {
   GasPrice,
-  IGasPriceProvider,
+  IGasPriceProvider
 } from '../../providers/gas-price-provider';
 import {
   IPortionProvider,
-  PortionProvider,
+  PortionProvider
 } from '../../providers/portion-provider';
 import { OnChainTokenFeeFetcher } from '../../providers/token-fee-fetcher';
 import { ITokenProvider, TokenProvider } from '../../providers/token-provider';
 import {
   ITokenValidatorProvider,
-  TokenValidatorProvider,
+  TokenValidatorProvider
 } from '../../providers/token-validator-provider';
 import {
   IV2PoolProvider,
-  V2PoolProvider,
+  V2PoolProvider
 } from '../../providers/v2/pool-provider';
 import {
   ArbitrumGasData,
   ArbitrumGasDataProvider,
-  IL2GasDataProvider,
+  IL2GasDataProvider
 } from '../../providers/v3/gas-data-provider';
 import {
   IV3PoolProvider,
-  V3PoolProvider,
+  V3PoolProvider
 } from '../../providers/v3/pool-provider';
 import { IV3SubgraphProvider } from '../../providers/v3/subgraph-provider';
 import { Erc20__factory } from '../../types/other/factories/Erc20__factory';
@@ -86,22 +96,23 @@ import { CurrencyAmount } from '../../util/amounts';
 import {
   ID_TO_CHAIN_ID,
   ID_TO_NETWORK_NAME,
-  V2_SUPPORTED,
+  V2_SUPPORTED
 } from '../../util/chains';
 import {
   getHighestLiquidityV3NativePool,
-  getHighestLiquidityV3USDPool,
+  getHighestLiquidityV3USDPool
 } from '../../util/gas-factory-helpers';
 import { log } from '../../util/log';
 import {
   buildSwapMethodParameters,
-  buildTrade,
+  buildTrade
 } from '../../util/methodParameters';
 import { metric, MetricLoggerUnit } from '../../util/metric';
 import {
   BATCH_PARAMS,
   BLOCK_NUMBER_CONFIGS,
-  DEFAULT_BATCH_PARAMS, DEFAULT_BLOCK_NUMBER_CONFIGS,
+  DEFAULT_BATCH_PARAMS,
+  DEFAULT_BLOCK_NUMBER_CONFIGS,
   DEFAULT_GAS_ERROR_FAILURE_OVERRIDES,
   DEFAULT_RETRY_OPTIONS,
   DEFAULT_SUCCESS_RATE_FAILURE_OVERRIDES,
@@ -123,18 +134,18 @@ import {
   SwapToRatioResponse,
   SwapToRatioStatus,
   V2Route,
-  V3Route,
+  V3Route
 } from '../router';
 
 import {
   DEFAULT_ROUTING_CONFIG_BY_CHAIN,
-  ETH_GAS_STATION_API_URL,
+  ETH_GAS_STATION_API_URL
 } from './config';
 import {
   MixedRouteWithValidQuote,
   RouteWithValidQuote,
   V2RouteWithValidQuote,
-  V3RouteWithValidQuote,
+  V3RouteWithValidQuote
 } from './entities/route-with-valid-quote';
 import { BestSwapRoute, getBestSwapRoute } from './functions/best-swap-route';
 import { calculateRatioAmountIn } from './functions/calculate-ratio-amount-in';
@@ -144,7 +155,7 @@ import {
   getV3CandidatePools,
   PoolId,
   V2CandidatePools,
-  V3CandidatePools,
+  V3CandidatePools
 } from './functions/get-candidate-pools';
 import {
   GasModelProviderConfig,
@@ -152,12 +163,18 @@ import {
   IGasModel,
   IOnChainGasModelFactory,
   IV2GasModelFactory,
-  LiquidityCalculationPools,
+  LiquidityCalculationPools
 } from './gas-models/gas-model';
-import { MixedRouteHeuristicGasModelFactory } from './gas-models/mixedRoute/mixed-route-heuristic-gas-model';
-import { V2HeuristicGasModelFactory } from './gas-models/v2/v2-heuristic-gas-model';
+import {
+  MixedRouteHeuristicGasModelFactory
+} from './gas-models/mixedRoute/mixed-route-heuristic-gas-model';
+import {
+  V2HeuristicGasModelFactory
+} from './gas-models/v2/v2-heuristic-gas-model';
 import { NATIVE_OVERHEAD } from './gas-models/v3/gas-costs';
-import { V3HeuristicGasModelFactory } from './gas-models/v3/v3-heuristic-gas-model';
+import {
+  V3HeuristicGasModelFactory
+} from './gas-models/v3/v3-heuristic-gas-model';
 import { GetQuotesResult, MixedQuoter, V2Quoter, V3Quoter } from './quoters';
 
 export type AlphaRouterParams = {
@@ -516,6 +533,41 @@ export class AlphaRouter
       switch (chainId) {
         case ChainId.OPTIMISM:
         case ChainId.OPTIMISM_GOERLI:
+        case ChainId.SEI_MAINNET:
+          this.onChainQuoteProvider = new OnChainQuoteProvider(
+            chainId,
+            provider,
+            this.multicall2Provider,
+            {
+              retries: 2,
+              minTimeout: 100,
+              maxTimeout: 1000,
+            },
+            (_) => {
+              return {
+                multicallChunk: 5,
+                gasLimitPerCall: 1_000_000,
+                quoteMinSuccessRate: 0.1,
+              }
+            },
+            {
+              gasLimitOverride: 1_000_000,
+              multicallChunk: 5,
+            },
+            {
+              gasLimitOverride: 1_000_000,
+              multicallChunk: 5,
+            },
+            {
+              baseBlockOffset: -10,
+              rollback: {
+                enabled: true,
+                attemptsBeforeRollback: 1,
+                rollbackBlockOffset: -10,
+              },
+            }
+          );
+          break;
         case ChainId.OPTIMISM_SEPOLIA:
           this.onChainQuoteProvider = new OnChainQuoteProvider(
             chainId,
@@ -589,41 +641,6 @@ export class AlphaRouter
             }
           );
           break;
-        case ChainId.ZKSYNC:
-          this.onChainQuoteProvider = new OnChainQuoteProvider(
-            chainId,
-            provider,
-            this.multicall2Provider,
-            {
-              retries: 2,
-              minTimeout: 100,
-              maxTimeout: 1000,
-            },
-            (_) => {
-              return {
-                multicallChunk: 27,
-                gasLimitPerCall: 3_000_000,
-                quoteMinSuccessRate: 0.1,
-              }
-            },
-            {
-              gasLimitOverride: 6_000_000,
-              multicallChunk: 13,
-            },
-            {
-              gasLimitOverride: 6_000_000,
-              multicallChunk: 13,
-            },
-            {
-              baseBlockOffset: -10,
-              rollback: {
-                enabled: true,
-                attemptsBeforeRollback: 1,
-                rollbackBlockOffset: -10,
-              },
-            }
-          );
-          break;
         case ChainId.ARBITRUM_ONE:
         case ChainId.ARBITRUM_GOERLI:
         case ChainId.ARBITRUM_SEPOLIA:
@@ -634,22 +651,22 @@ export class AlphaRouter
             {
               retries: 2,
               minTimeout: 100,
-              maxTimeout: 1000,
+              maxTimeout: 1000
             },
             (_) => {
               return {
                 multicallChunk: 10,
                 gasLimitPerCall: 12_000_000,
-                quoteMinSuccessRate: 0.1,
-              }
+                quoteMinSuccessRate: 0.1
+              };
             },
             {
               gasLimitOverride: 30_000_000,
-              multicallChunk: 6,
+              multicallChunk: 6
             },
             {
               gasLimitOverride: 30_000_000,
-              multicallChunk: 6,
+              multicallChunk: 6
             }
           );
           break;
@@ -791,12 +808,13 @@ export class AlphaRouter
       this.v3SubgraphProvider = new V3SubgraphProviderWithFallBacks([
         new CachingV3SubgraphProvider(
           chainId,
-          new URISubgraphProvider(
-            chainId,
-            `https://cloudflare-ipfs.com/ipns/api.uniswap.org/v1/pools/v3/${chainName}.json`,
-            undefined,
-            0
-          ),
+          // new URISubgraphProvider(
+          //   chainId,
+          //   `https://cloudflare-ipfs.com/ipns/api.uniswap.org/v1/pools/v3/${chainName}.json`,
+          //   undefined,
+          //   0
+          // ),
+          new V3SubgraphProvider(chainId),
           new NodeJSCache(new NodeCache({ stdTTL: 300, useClones: false }))
         ),
         new StaticV3SubgraphProvider(chainId, this.v3PoolProvider),

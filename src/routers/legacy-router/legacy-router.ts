@@ -1,8 +1,18 @@
 import { BigNumber } from '@ethersproject/bignumber';
 import { Logger } from '@ethersproject/logger';
-import { SwapRouter, Trade } from '@uniswap/router-sdk';
-import { ChainId, Currency, Token, TradeType } from '@uniswap/sdk-core';
-import { FeeAmount, MethodParameters, Pool, Route } from '@uniswap/v3-sdk';
+import { SwapRouter, Trade } from '@miljan9602/dswap-router-sdk';
+import {
+  ChainId,
+  Currency,
+  Token,
+  TradeType
+} from '@miljan9602/dswap-sdk-core';
+import {
+  FeeAmount,
+  MethodParameters,
+  Pool,
+  Route
+} from '@miljan9602/dswap-v3-sdk';
 import _ from 'lodash';
 
 import { IOnChainQuoteProvider, RouteWithQuotes } from '../../providers';
@@ -10,7 +20,7 @@ import { IMulticallProvider } from '../../providers/multicall-provider';
 import {
   DAI_MAINNET,
   ITokenProvider,
-  USDC_MAINNET,
+  USDC_MAINNET
 } from '../../providers/token-provider';
 import { IV3PoolProvider } from '../../providers/v3/pool-provider';
 import { SWAP_ROUTER_02_ADDRESSES } from '../../util';
@@ -23,7 +33,7 @@ import { SwapOptionsSwapRouter02, SwapRoute, V3Route } from '../router';
 import {
   ADDITIONAL_BASES,
   BASES_TO_CHECK_TRADES_AGAINST,
-  CUSTOM_BASES,
+  CUSTOM_BASES
 } from './bases';
 
 export type LegacyRouterParams = {

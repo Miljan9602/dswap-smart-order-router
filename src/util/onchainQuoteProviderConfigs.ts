@@ -1,10 +1,10 @@
-import { ChainId } from '@uniswap/sdk-core';
+import { ChainId } from '@miljan9602/dswap-sdk-core';
 
 import {
   BatchParams,
   BlockNumberConfig,
   FailureOverrides,
-  QuoteRetryOptions,
+  QuoteRetryOptions
 } from '../providers';
 
 export const NETWORKS_WITH_SAME_RETRY_OPTIONS = Object.values(

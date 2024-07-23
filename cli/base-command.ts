@@ -4,8 +4,8 @@ import { JsonRpcProvider } from '@ethersproject/providers';
 import { Command, flags } from '@oclif/command';
 import { ParserOutput } from '@oclif/parser/lib/parse';
 import DEFAULT_TOKEN_LIST from '@uniswap/default-token-list';
-import { ChainId, Currency, CurrencyAmount, Token } from '@uniswap/sdk-core';
-import { MethodParameters } from '@uniswap/v3-sdk';
+import { ChainId, Currency, CurrencyAmount, Token } from '@miljan9602/dswap-sdk-core';
+import { MethodParameters } from '@miljan9602/dswap-v3-sdk';
 import bunyan, { default as Logger } from 'bunyan';
 import bunyanDebugStream from 'bunyan-debug-stream';
 import _ from 'lodash';
@@ -108,7 +108,7 @@ export abstract class BaseCommand extends Command {
     chainId: flags.integer({
       char: 'c',
       required: false,
-      default: ChainId.MAINNET,
+      default: ChainId.SEI_MAINNET,
       options: CHAIN_IDS_LIST,
     }),
     tokenListURI: flags.string({

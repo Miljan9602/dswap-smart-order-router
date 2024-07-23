@@ -1,5 +1,10 @@
-import { Protocol } from '@uniswap/router-sdk';
-import { ChainId, Currency, Token, TradeType } from '@uniswap/sdk-core';
+import { Protocol } from '@miljan9602/dswap-router-sdk';
+import {
+  ChainId,
+  Currency,
+  Token,
+  TradeType
+} from '@miljan9602/dswap-sdk-core';
 import _ from 'lodash';
 
 import {
@@ -11,14 +16,14 @@ import {
   IV2SubgraphProvider,
   IV3PoolProvider,
   IV3SubgraphProvider,
-  TokenValidationResult,
+  TokenValidationResult
 } from '../../../providers';
 import {
   CurrencyAmount,
   log,
   metric,
   MetricLoggerUnit,
-  routeToString,
+  routeToString
 } from '../../../util';
 import { MixedRoute } from '../../router';
 import { AlphaRouterConfig } from '../alpha-router';
@@ -28,7 +33,7 @@ import {
   CandidatePoolsBySelectionCriteria,
   getMixedRouteCandidatePools,
   V2CandidatePools,
-  V3CandidatePools,
+  V3CandidatePools
 } from '../functions/get-candidate-pools';
 import { IGasModel } from '../gas-models';
 

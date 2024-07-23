@@ -1,14 +1,16 @@
 import { BigNumber } from '@ethersproject/bignumber';
 import { BaseProvider } from '@ethersproject/providers';
-import { ChainId } from '@uniswap/sdk-core';
+import { ChainId } from '@miljan9602/dswap-sdk-core';
 
-import { TokenFeeDetector__factory } from '../types/other/factories/TokenFeeDetector__factory';
 import { TokenFeeDetector } from '../types/other/TokenFeeDetector';
+import {
+  TokenFeeDetector__factory
+} from '../types/other/factories/TokenFeeDetector__factory';
 import {
   log,
   metric,
   MetricLoggerUnit,
-  WRAPPED_NATIVE_CURRENCY,
+  WRAPPED_NATIVE_CURRENCY
 } from '../util';
 
 import { ProviderConfig } from './provider';

@@ -1,10 +1,13 @@
 import { Interface } from '@ethersproject/abi';
 import { BigNumber } from '@ethersproject/bignumber';
 import { parseBytes32String } from '@ethersproject/strings';
-import { ChainId, Token } from '@uniswap/sdk-core';
+import { ChainId, Token } from '@miljan9602/dswap-sdk-core';
 import _ from 'lodash';
 
-import { IERC20Metadata__factory } from '../types/v3/factories/IERC20Metadata__factory';
+// @ts-ignore
+import {
+  IERC20Metadata__factory
+} from '../types/v3/factories/IERC20Metadata__factory';
 import { log, WRAPPED_NATIVE_CURRENCY } from '../util';
 
 import { IMulticallProvider, Result } from './multicall-provider';
@@ -36,6 +39,22 @@ export type TokenAccessor = {
   getAllTokens: () => Token[];
 };
 
+export const USDT_SEI_MAINNET = new Token(
+  ChainId.SEI_MAINNET,
+  '0x8b595a7b0cd41f3c0dac80114f6a351274be60e6',
+  6,
+  'USDT',
+  'Tether USD'
+);
+
+export const USDC_SEI_MAINNET = new Token(
+  ChainId.SEI_MAINNET,
+  '0xf4855a5aaf42bf27163d8981b16bb0ef80620550',
+  6,
+  'USDC',
+  'USD//C'
+);
+
 // Some well known tokens on each chain for seeding cache / testing.
 export const USDC_MAINNET = new Token(
   ChainId.MAINNET,
@@ -44,6 +63,7 @@ export const USDC_MAINNET = new Token(
   'USDC',
   'USD//C'
 );
+
 export const USDT_MAINNET = new Token(
   ChainId.MAINNET,
   '0xdAC17F958D2ee523a2206206994597C13D831ec7',
@@ -664,30 +684,6 @@ export const USDC_ZORA = new Token(
   'USD Coin (Bridged from Ethereum)'
 );
 
-export const USDC_ZKSYNC = new Token(
-  ChainId.ZKSYNC,
-  '0x1d17CBcF0D6D143135aE902365D2E5e2A16538D4',
-  6,
-  'USDC',
-  'USDC'
-);
-
-export const USDCE_ZKSYNC = new Token(
-  ChainId.ZKSYNC,
-  '0x3355df6D4c9C3035724Fd0e3914dE96A5a83aaf4',
-  6,
-  'USDC.e',
-  'Bridged USDC (zkSync)'
-);
-
-export const DAI_ZKSYNC = new Token(
-  ChainId.ZKSYNC,
-  '0x4B9eb6c0b6ea15176BBF62841C6B2A8a398cb656',
-  18,
-  'DAI',
-  'Dai Stablecoin'
-);
-
 export class TokenProvider implements ITokenProvider {
   constructor(
     private chainId: ChainId,
@@ -893,8 +889,6 @@ export const DAI_ON = (chainId: ChainId): Token => {
       return DAI_BNB;
     case ChainId.AVALANCHE:
       return DAI_AVAX;
-    case ChainId.ZKSYNC:
-      return DAI_ZKSYNC;
     default:
       throw new Error(`Chain id: ${chainId} not supported`);
   }
@@ -916,6 +910,8 @@ export const USDT_ON = (chainId: ChainId): Token => {
       return USDT_ARBITRUM;
     case ChainId.BNB:
       return USDT_BNB;
+    case ChainId.SEI_MAINNET:
+      return USDT_SEI_MAINNET;
     default:
       throw new Error(`Chain id: ${chainId} not supported`);
   }
@@ -959,8 +955,8 @@ export const USDC_ON = (chainId: ChainId): Token => {
       return USDC_BASE_GOERLI;
     case ChainId.ZORA:
       return USDC_ZORA;
-    case ChainId.ZKSYNC:
-      return USDCE_ZKSYNC;
+    case ChainId.SEI_MAINNET:
+      return USDC_SEI_MAINNET;
     default:
       throw new Error(`Chain id: ${chainId} not supported`);
   }

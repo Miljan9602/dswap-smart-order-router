@@ -1,6 +1,6 @@
-import { Protocol } from '@uniswap/router-sdk';
-import { ChainId, Token, TradeType } from '@uniswap/sdk-core';
-import { FeeAmount } from '@uniswap/v3-sdk';
+import { Protocol } from '@miljan9602/dswap-router-sdk';
+import { ChainId, Token, TradeType } from '@miljan9602/dswap-sdk-core';
+import { FeeAmount } from '@miljan9602/dswap-v3-sdk';
 import _ from 'lodash';
 
 import {
@@ -58,19 +58,19 @@ import {
   WGLMR_MOONBEAM,
   WMATIC_POLYGON,
   WMATIC_POLYGON_MUMBAI,
-  WXDAI_GNOSIS,
+  WXDAI_GNOSIS
 } from '../../../providers/token-provider';
 import {
   IV2PoolProvider,
-  V2PoolAccessor,
+  V2PoolAccessor
 } from '../../../providers/v2/pool-provider';
 import {
   IV3PoolProvider,
-  V3PoolAccessor,
+  V3PoolAccessor
 } from '../../../providers/v3/pool-provider';
 import {
   IV3SubgraphProvider,
-  V3SubgraphPool,
+  V3SubgraphPool
 } from '../../../providers/v3/subgraph-provider';
 import { unparseFeeAmount, WRAPPED_NATIVE_CURRENCY } from '../../../util';
 import { parseFeeAmount } from '../../../util/amounts';
@@ -133,6 +133,26 @@ export type MixedRouteGetCandidatePoolsParams = {
 };
 
 const baseTokensByChain: { [chainId in ChainId]?: Token[] } = {
+
+  // TODO: fix this
+  [ChainId.SEI_MAINNET] : [
+    WRAPPED_NATIVE_CURRENCY[ChainId.SEI_MAINNET]!,
+    new Token(
+      ChainId.SEI_MAINNET,
+      '0xf4855a5aaf42bf27163d8981b16bb0ef80620550',
+      6,
+      'USDC',
+      'USD//C'
+    ),
+    new Token(
+      ChainId.SEI_MAINNET,
+      '0x8b595a7b0cd41f3c0dac80114f6a351274be60e6',
+      6,
+      'USDT',
+      'Tether USD'
+    ),
+  ],
+
   [ChainId.MAINNET]: [
     USDC_MAINNET,
     USDT_MAINNET,
@@ -188,7 +208,6 @@ const baseTokensByChain: { [chainId in ChainId]?: Token[] } = {
   [ChainId.BASE]: [USDC_BASE],
   [ChainId.BLAST]: [WRAPPED_NATIVE_CURRENCY[ChainId.BLAST]!, USDB_BLAST],
   [ChainId.ZORA]: [WRAPPED_NATIVE_CURRENCY[ChainId.ZORA]!],
-  [ChainId.ZKSYNC]: [WRAPPED_NATIVE_CURRENCY[ChainId.ZKSYNC]!],
 };
 
 class SubcategorySelectionPools<SubgraphPool> {
@@ -299,7 +318,9 @@ export async function getV3CandidatePools({
     .flatMap((token: Token) => {
       return _(subgraphPoolsSorted)
         .filter((subgraphPool) => {
+
           const tokenAddress = token.address.toLowerCase();
+
           return (
             (subgraphPool.token0.id == tokenAddress &&
               subgraphPool.token1.id == tokenInAddress) ||

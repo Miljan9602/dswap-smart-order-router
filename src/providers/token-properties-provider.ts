@@ -1,5 +1,5 @@
 import { BigNumber } from '@ethersproject/bignumber';
-import { ChainId, Token } from '@uniswap/sdk-core';
+import { ChainId, Token } from '@miljan9602/dswap-sdk-core';
 
 import { log, metric, MetricLoggerUnit } from '../util';
 
@@ -9,11 +9,11 @@ import {
   DEFAULT_TOKEN_FEE_RESULT,
   ITokenFeeFetcher,
   TokenFeeMap,
-  TokenFeeResult,
+  TokenFeeResult
 } from './token-fee-fetcher';
 import {
   DEFAULT_ALLOWLIST,
-  TokenValidationResult,
+  TokenValidationResult
 } from './token-validator-provider';
 
 export const DEFAULT_TOKEN_PROPERTIES_RESULT: TokenPropertiesResult = {

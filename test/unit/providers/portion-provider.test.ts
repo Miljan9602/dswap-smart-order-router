@@ -1,5 +1,5 @@
 import { BigNumber } from '@ethersproject/bignumber';
-import { Currency, CurrencyAmount, Fraction, Percent, Token, TradeType, } from '@uniswap/sdk-core';
+import { Currency, CurrencyAmount, Fraction, Percent, Token, TradeType, } from '@miljan9602/dswap-sdk-core';
 import {
   parseAmount,
   RouteWithValidQuote,

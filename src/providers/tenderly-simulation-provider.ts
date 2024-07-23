@@ -3,9 +3,11 @@ import https from 'https';
 
 import { MaxUint256 } from '@ethersproject/constants';
 import { JsonRpcProvider } from '@ethersproject/providers';
-import { permit2Address } from '@uniswap/permit2-sdk';
-import { ChainId } from '@uniswap/sdk-core';
-import { UNIVERSAL_ROUTER_ADDRESS } from '@uniswap/universal-router-sdk';
+import { PERMIT2_ADDRESS } from '@miljan9602/dswap-permit2-sdk';
+import { ChainId } from '@miljan9602/dswap-sdk-core';
+import {
+  UNIVERSAL_ROUTER_ADDRESS
+} from '@miljan9602/dswap-universal-router-sdk';
 import axios, { AxiosRequestConfig } from 'axios';
 import { BigNumber } from 'ethers/lib/ethers';
 
@@ -15,7 +17,7 @@ import {
   MetricLoggerUnit,
   SwapOptions,
   SwapRoute,
-  SwapType,
+  SwapType
 } from '../routers';
 import { Erc20__factory } from '../types/other/factories/Erc20__factory';
 import { Permit2__factory } from '../types/other/factories/Permit2__factory';
@@ -23,12 +25,12 @@ import {
   BEACON_CHAIN_DEPOSIT_ADDRESS,
   log,
   MAX_UINT160,
-  SWAP_ROUTER_02_ADDRESSES,
+  SWAP_ROUTER_02_ADDRESSES
 } from '../util';
 import { APPROVE_TOKEN_FOR_TRANSFER } from '../util/callData';
 import {
   calculateGasUsed,
-  initSwapRouteFromExisting,
+  initSwapRouteFromExisting
 } from '../util/gas-factory-helpers';
 
 import { EthEstimateGasSimulator } from './eth-estimate-gas-provider';
@@ -36,7 +38,7 @@ import { IPortionProvider } from './portion-provider';
 import {
   SimulationResult,
   SimulationStatus,
-  Simulator,
+  Simulator
 } from './simulation-provider';
 import { IV2PoolProvider } from './v2/pool-provider';
 import { IV3PoolProvider } from './v3/pool-provider';
@@ -145,7 +147,6 @@ const TENDERLY_NODE_API = (chainId: ChainId, tenderlyNodeApiKey: string) => {
 export const TENDERLY_NOT_SUPPORTED_CHAINS = [
   ChainId.CELO,
   ChainId.CELO_ALFAJORES,
-  ChainId.ZKSYNC,
 ];
 
 // We multiply tenderly gas limit by this to overestimate gas limit
@@ -324,7 +325,7 @@ export class TenderlySimulator extends Simulator {
       const erc20Interface = Erc20__factory.createInterface();
       const approvePermit2Calldata = erc20Interface.encodeFunctionData(
         'approve',
-        [permit2Address(this.chainId), MaxUint256]
+        [PERMIT2_ADDRESS, MaxUint256]
       );
 
       // We are unsure if the users calldata contains a permit or not. We just
@@ -354,7 +355,7 @@ export class TenderlySimulator extends Simulator {
         network_id: chainId,
         estimate_gas: true,
         input: approveUniversalRouterCallData,
-        to: permit2Address(this.chainId),
+        to: PERMIT2_ADDRESS,
         value: '0',
         from: fromAddress,
         block_number: blockNumber,

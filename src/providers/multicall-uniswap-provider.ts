@@ -1,11 +1,15 @@
 import { BigNumber } from '@ethersproject/bignumber';
 import { BaseProvider } from '@ethersproject/providers';
-import { ChainId } from '@uniswap/sdk-core';
+import { ChainId } from '@miljan9602/dswap-sdk-core';
 import _ from 'lodash';
 import stats from 'stats-lite';
 
-import { UniswapInterfaceMulticall__factory } from '../types/v3/factories/UniswapInterfaceMulticall__factory';
-import { UniswapInterfaceMulticall } from '../types/v3/UniswapInterfaceMulticall';
+import {
+  DragonswapInterfaceMulticall
+} from '../types/v3/DragonswapInterfaceMulticall';
+import {
+  DragonswapInterfaceMulticall__factory
+} from '../types/v3/factories/DragonswapInterfaceMulticall__factory';
 import { UNISWAP_MULTICALL_ADDRESSES } from '../util/addresses';
 import { log } from '../util/log';
 
@@ -14,7 +18,7 @@ import {
   CallSameFunctionOnContractWithMultipleParams,
   CallSameFunctionOnMultipleContractsParams,
   IMulticallProvider,
-  Result,
+  Result
 } from './multicall-provider';
 
 export type UniswapMulticallConfig = {
@@ -31,7 +35,7 @@ export type UniswapMulticallConfig = {
  * @class UniswapMulticallProvider
  */
 export class UniswapMulticallProvider extends IMulticallProvider<UniswapMulticallConfig> {
-  private multicallContract: UniswapInterfaceMulticall;
+  private multicallContract: DragonswapInterfaceMulticall;
 
   constructor(
     protected chainId: ChainId,
@@ -47,7 +51,7 @@ export class UniswapMulticallProvider extends IMulticallProvider<UniswapMultical
       );
     }
 
-    this.multicallContract = UniswapInterfaceMulticall__factory.connect(
+    this.multicallContract = DragonswapInterfaceMulticall__factory.connect(
       multicallAddress,
       this.provider
     );

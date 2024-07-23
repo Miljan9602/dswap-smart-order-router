@@ -1,22 +1,27 @@
 import { BigNumber } from '@ethersproject/bignumber';
-import { Protocol } from '@uniswap/router-sdk';
-import { ChainId, Currency, Token, TradeType } from '@uniswap/sdk-core';
-import { Pair } from '@uniswap/v2-sdk';
-import { Pool } from '@uniswap/v3-sdk';
+import { Protocol } from '@miljan9602/dswap-router-sdk';
+import {
+  ChainId,
+  Currency,
+  Token,
+  TradeType
+} from '@miljan9602/dswap-sdk-core';
+import { Pair } from '@miljan9602/dswap-v2-sdk';
+import { Pool } from '@miljan9602/dswap-v3-sdk';
 import _ from 'lodash';
 
 import {
   ITokenListProvider,
   ITokenProvider,
   ITokenValidatorProvider,
-  TokenValidationResult,
+  TokenValidationResult
 } from '../../../providers';
 import {
   CurrencyAmount,
   log,
   metric,
   MetricLoggerUnit,
-  poolToString,
+  poolToString
 } from '../../../util';
 import { MixedRoute, V2Route, V3Route } from '../../router';
 import { AlphaRouterConfig } from '../alpha-router';
@@ -24,7 +29,7 @@ import { RouteWithValidQuote } from '../entities/route-with-valid-quote';
 import {
   CandidatePoolsBySelectionCriteria,
   V2CandidatePools,
-  V3CandidatePools,
+  V3CandidatePools
 } from '../functions/get-candidate-pools';
 import { IGasModel } from '../gas-models';
 

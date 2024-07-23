@@ -1,8 +1,8 @@
 import { BigNumber } from '@ethersproject/bignumber';
-import { partitionMixedRouteByProtocol } from '@uniswap/router-sdk';
-import { ChainId } from '@uniswap/sdk-core';
-import { Pair } from '@uniswap/v2-sdk';
-import { Pool } from '@uniswap/v3-sdk';
+import { partitionMixedRouteByProtocol } from '@miljan9602/dswap-router-sdk';
+import { ChainId } from '@miljan9602/dswap-sdk-core';
+import { Pair } from '@miljan9602/dswap-v2-sdk';
+import { Pool } from '@miljan9602/dswap-v3-sdk';
 import JSBI from 'jsbi';
 import _ from 'lodash';
 
@@ -10,23 +10,25 @@ import { WRAPPED_NATIVE_CURRENCY } from '../../../..';
 import { log } from '../../../../util';
 import { CurrencyAmount } from '../../../../util/amounts';
 import { getV2NativePool } from '../../../../util/gas-factory-helpers';
-import { MixedRouteWithValidQuote } from '../../entities/route-with-valid-quote';
+import {
+  MixedRouteWithValidQuote
+} from '../../entities/route-with-valid-quote';
 import {
   BuildOnChainGasModelFactoryType,
   GasModelProviderConfig,
   getQuoteThroughNativePool,
   IGasModel,
-  IOnChainGasModelFactory,
+  IOnChainGasModelFactory
 } from '../gas-model';
 import {
   BASE_SWAP_COST as BASE_SWAP_COST_V2,
-  COST_PER_EXTRA_HOP as COST_PER_EXTRA_HOP_V2,
+  COST_PER_EXTRA_HOP as COST_PER_EXTRA_HOP_V2
 } from '../v2/v2-heuristic-gas-model';
 import {
   BASE_SWAP_COST,
   COST_PER_HOP,
   COST_PER_INIT_TICK,
-  COST_PER_UNINIT_TICK,
+  COST_PER_UNINIT_TICK
 } from '../v3/gas-costs';
 
 /**

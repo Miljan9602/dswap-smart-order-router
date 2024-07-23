@@ -3,23 +3,25 @@ import {
   CondensedAddLiquidityOptions,
   MixedRouteSDK,
   Protocol,
-  Trade,
-} from '@uniswap/router-sdk';
+  Trade
+} from '@miljan9602/dswap-router-sdk';
 import {
   Currency,
   Fraction,
   Percent,
   Token,
-  TradeType,
-} from '@uniswap/sdk-core';
-import { SwapOptions as UniversalRouterSwapOptions } from '@uniswap/universal-router-sdk';
-import { Route as V2RouteRaw } from '@uniswap/v2-sdk';
+  TradeType
+} from '@miljan9602/dswap-sdk-core';
+import {
+  SwapOptions as UniversalRouterSwapOptions
+} from '@miljan9602/dswap-universal-router-sdk';
+import { Route as V2RouteRaw } from '@miljan9602/dswap-v2-sdk';
 import {
   MethodParameters as SDKMethodParameters,
   Pool,
   Position,
-  Route as V3RouteRaw,
-} from '@uniswap/v3-sdk';
+  Route as V3RouteRaw
+} from '@miljan9602/dswap-v3-sdk';
 
 import { SimulationStatus } from '../providers';
 import { CurrencyAmount } from '../util/amounts';

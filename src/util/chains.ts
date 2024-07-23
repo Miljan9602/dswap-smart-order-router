@@ -4,7 +4,7 @@ import {
   Ether,
   NativeCurrency,
   Token
-} from '@uniswap/sdk-core';
+} from '@miljan9602/dswap-sdk-core';
 
 // WIP: Gnosis, Moonbeam
 export const SUPPORTED_CHAINS: ChainId[] = [
@@ -25,7 +25,7 @@ export const SUPPORTED_CHAINS: ChainId[] = [
   ChainId.BASE,
   ChainId.BLAST,
   ChainId.ZORA,
-  ChainId.ZKSYNC,
+  ChainId.SEI_MAINNET
   // Gnosis and Moonbeam don't yet have contracts deployed yet
 ];
 
@@ -38,6 +38,7 @@ export const V2_SUPPORTED = [
   ChainId.BASE,
   ChainId.BNB,
   ChainId.AVALANCHE,
+  ChainId.SEI_MAINNET
 ];
 
 export const HAS_L1_FEE = [
@@ -106,8 +107,8 @@ export const ID_TO_CHAIN_ID = (id: number): ChainId => {
       return ChainId.BLAST;
     case 7777777:
       return ChainId.ZORA;
-    case 324:
-      return ChainId.ZKSYNC;
+    case 1329:
+      return ChainId.SEI_MAINNET;
     default:
       throw new Error(`Unknown chain id: ${id}`);
   }
@@ -135,7 +136,7 @@ export enum ChainName {
   BASE_GOERLI = 'base-goerli',
   BLAST = 'blast-mainnet',
   ZORA = 'zora-mainnet',
-  ZKSYNC = 'zksync-mainnet',
+  SEI_MAINNET = 'sei'
 }
 
 export enum NativeCurrencyName {
@@ -147,6 +148,7 @@ export enum NativeCurrencyName {
   MOONBEAM = 'GLMR',
   BNB = 'BNB',
   AVALANCHE = 'AVAX',
+  SEI = 'SEI'
 }
 
 export const NATIVE_NAMES_BY_ID: { [chainId: number]: string[] } = {
@@ -225,7 +227,7 @@ export const NATIVE_NAMES_BY_ID: { [chainId: number]: string[] } = {
     'ETHER',
     '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
   ],
-  [ChainId.ZKSYNC]: [
+  [ChainId.SEI_MAINNET]: [
     'ETH',
     'ETHER',
     '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
@@ -253,7 +255,7 @@ export const NATIVE_CURRENCY: { [chainId: number]: NativeCurrencyName } = {
   [ChainId.BASE]: NativeCurrencyName.ETHER,
   [ChainId.BLAST]: NativeCurrencyName.ETHER,
   [ChainId.ZORA]: NativeCurrencyName.ETHER,
-  [ChainId.ZKSYNC]: NativeCurrencyName.ETHER,
+  [ChainId.SEI_MAINNET]: NativeCurrencyName.SEI
 };
 
 export const ID_TO_NETWORK_NAME = (id: number): ChainName => {
@@ -300,8 +302,8 @@ export const ID_TO_NETWORK_NAME = (id: number): ChainName => {
       return ChainName.BLAST;
     case 7777777:
       return ChainName.ZORA;
-    case 324:
-      return ChainName.ZKSYNC;
+    case 1329:
+      return ChainName.SEI_MAINNET;
     default:
       throw new Error(`Unknown chain id: ${id}`);
   }
@@ -349,8 +351,8 @@ export const ID_TO_PROVIDER = (id: ChainId): string => {
       return process.env.JSON_RPC_PROVIDER_BLAST!;
     case ChainId.ZORA:
       return process.env.JSON_RPC_PROVIDER_ZORA!;
-    case ChainId.ZKSYNC:
-      return process.env.JSON_RPC_PROVIDER_ZKSYNC!;
+    case ChainId.SEI_MAINNET:
+      return process.env.JSON_RPC_PROVIDER_SEI_MAINNET!;
     default:
       throw new Error(`Chain id: ${id} not supported`);
   }
@@ -520,9 +522,9 @@ export const WRAPPED_NATIVE_CURRENCY: { [chainId in ChainId]: Token } = {
     'WETH',
     'Wrapped Ether'
   ),
-  [ChainId.ZKSYNC]: new Token(
-    ChainId.ZKSYNC,
-    '0x5aea5775959fbc2557cc8789bc1bf90a239d9a91',
+  [ChainId.SEI_MAINNET]: new Token(
+    ChainId.SEI_MAINNET,
+    '0x027D2E627209f1cebA52ADc8A5aFE9318459b44B',
     18,
     'WETH',
     'Wrapped Ether'
@@ -559,6 +561,12 @@ function isCelo(
   chainId: number
 ): chainId is ChainId.CELO | ChainId.CELO_ALFAJORES {
   return chainId === ChainId.CELO_ALFAJORES || chainId === ChainId.CELO;
+}
+
+function isSeiMainnet(
+  chainId: number
+): chainId is ChainId.SEI_MAINNET | ChainId.SEI_MAINNET {
+  return chainId === ChainId.SEI_MAINNET || chainId === ChainId.SEI_MAINNET;
 }
 
 class CeloNativeCurrency extends NativeCurrency {
@@ -677,6 +685,26 @@ class AvalancheNativeCurrency extends NativeCurrency {
   }
 }
 
+class SeiMainnetNativeCurrency extends NativeCurrency {
+  public constructor(chainId: number) {
+    if (!isSeiMainnet(chainId)) throw new Error('Not sei');
+    super(chainId, 18, 'SEI', 'Sei');
+  }
+
+  get wrapped(): Token {
+    if (!isSeiMainnet(this.chainId)) throw new Error('Not avalanche');
+    const nativeCurrency = WRAPPED_NATIVE_CURRENCY[this.chainId];
+    if (nativeCurrency) {
+      return nativeCurrency;
+    }
+    throw new Error(`Does not support this chain ${this.chainId}`);
+  }
+
+  equals(other: Currency): boolean {
+    return other.isNative && other.chainId === this.chainId;
+  }
+}
+
 export class ExtendedEther extends Ether {
   public get wrapped(): Token {
     if (this.chainId in WRAPPED_NATIVE_CURRENCY) {
@@ -714,6 +742,8 @@ export function nativeOnChain(chainId: number): NativeCurrency {
     cachedNativeCurrency[chainId] = new BnbNativeCurrency(chainId);
   } else if (isAvax(chainId)) {
     cachedNativeCurrency[chainId] = new AvalancheNativeCurrency(chainId);
+  } else if (isSeiMainnet(chainId)) {
+    cachedNativeCurrency[chainId] = new SeiMainnetNativeCurrency(chainId);
   } else {
     cachedNativeCurrency[chainId] = ExtendedEther.onChain(chainId);
   }
