@@ -1,0 +1,163 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.NATIVE_OVERHEAD = exports.NATIVE_UNWRAP_OVERHEAD = exports.NATIVE_WRAP_OVERHEAD = exports.TOKEN_OVERHEAD = exports.SINGLE_HOP_OVERHEAD = exports.COST_PER_HOP = exports.COST_PER_INIT_TICK = exports.BASE_SWAP_COST = exports.COST_PER_UNINIT_TICK = void 0;
+const bignumber_1 = require("@ethersproject/bignumber");
+const dswap_sdk_core_1 = require("@miljan9602/dswap-sdk-core");
+const providers_1 = require("../../../../providers");
+// Cost for crossing an uninitialized tick.
+exports.COST_PER_UNINIT_TICK = bignumber_1.BigNumber.from(0);
+//l2 execution fee on optimism is roughly the same as mainnet
+const BASE_SWAP_COST = (id) => {
+    switch (id) {
+        case dswap_sdk_core_1.ChainId.MAINNET:
+        case dswap_sdk_core_1.ChainId.GOERLI:
+        case dswap_sdk_core_1.ChainId.SEPOLIA:
+        case dswap_sdk_core_1.ChainId.OPTIMISM:
+        case dswap_sdk_core_1.ChainId.OPTIMISM_GOERLI:
+        case dswap_sdk_core_1.ChainId.OPTIMISM_SEPOLIA:
+        case dswap_sdk_core_1.ChainId.BNB:
+        case dswap_sdk_core_1.ChainId.AVALANCHE:
+        case dswap_sdk_core_1.ChainId.BASE:
+        case dswap_sdk_core_1.ChainId.BASE_GOERLI:
+        case dswap_sdk_core_1.ChainId.ZORA:
+        case dswap_sdk_core_1.ChainId.ZORA_SEPOLIA:
+        case dswap_sdk_core_1.ChainId.ROOTSTOCK:
+        case dswap_sdk_core_1.ChainId.BLAST:
+        case dswap_sdk_core_1.ChainId.ARBITRUM_ONE:
+        case dswap_sdk_core_1.ChainId.ARBITRUM_GOERLI:
+        case dswap_sdk_core_1.ChainId.ARBITRUM_SEPOLIA:
+            return bignumber_1.BigNumber.from(5000);
+        case dswap_sdk_core_1.ChainId.POLYGON:
+        case dswap_sdk_core_1.ChainId.SEI_MAINNET:
+        case dswap_sdk_core_1.ChainId.POLYGON_MUMBAI:
+            return bignumber_1.BigNumber.from(2000);
+        case dswap_sdk_core_1.ChainId.CELO:
+        case dswap_sdk_core_1.ChainId.CELO_ALFAJORES:
+            return bignumber_1.BigNumber.from(2000);
+        //TODO determine if sufficient
+        case dswap_sdk_core_1.ChainId.GNOSIS:
+            return bignumber_1.BigNumber.from(2000);
+        case dswap_sdk_core_1.ChainId.MOONBEAM:
+            return bignumber_1.BigNumber.from(2000);
+    }
+};
+exports.BASE_SWAP_COST = BASE_SWAP_COST;
+const COST_PER_INIT_TICK = (id) => {
+    switch (id) {
+        case dswap_sdk_core_1.ChainId.MAINNET:
+        case dswap_sdk_core_1.ChainId.GOERLI:
+        case dswap_sdk_core_1.ChainId.SEPOLIA:
+        case dswap_sdk_core_1.ChainId.BNB:
+        case dswap_sdk_core_1.ChainId.SEI_MAINNET:
+        case dswap_sdk_core_1.ChainId.AVALANCHE:
+            return bignumber_1.BigNumber.from(31000);
+        case dswap_sdk_core_1.ChainId.OPTIMISM:
+        case dswap_sdk_core_1.ChainId.OPTIMISM_GOERLI:
+        case dswap_sdk_core_1.ChainId.OPTIMISM_SEPOLIA:
+        case dswap_sdk_core_1.ChainId.BASE:
+        case dswap_sdk_core_1.ChainId.BASE_GOERLI:
+        case dswap_sdk_core_1.ChainId.ZORA:
+        case dswap_sdk_core_1.ChainId.ZORA_SEPOLIA:
+        case dswap_sdk_core_1.ChainId.ROOTSTOCK:
+        case dswap_sdk_core_1.ChainId.BLAST:
+        case dswap_sdk_core_1.ChainId.ARBITRUM_ONE:
+        case dswap_sdk_core_1.ChainId.ARBITRUM_GOERLI:
+        case dswap_sdk_core_1.ChainId.ARBITRUM_SEPOLIA:
+            return bignumber_1.BigNumber.from(31000);
+        case dswap_sdk_core_1.ChainId.POLYGON:
+        case dswap_sdk_core_1.ChainId.POLYGON_MUMBAI:
+            return bignumber_1.BigNumber.from(31000);
+        case dswap_sdk_core_1.ChainId.CELO:
+        case dswap_sdk_core_1.ChainId.CELO_ALFAJORES:
+            return bignumber_1.BigNumber.from(31000);
+        case dswap_sdk_core_1.ChainId.GNOSIS:
+            return bignumber_1.BigNumber.from(31000);
+        case dswap_sdk_core_1.ChainId.MOONBEAM:
+            return bignumber_1.BigNumber.from(31000);
+    }
+};
+exports.COST_PER_INIT_TICK = COST_PER_INIT_TICK;
+const COST_PER_HOP = (id) => {
+    switch (id) {
+        case dswap_sdk_core_1.ChainId.MAINNET:
+        case dswap_sdk_core_1.ChainId.GOERLI:
+        case dswap_sdk_core_1.ChainId.SEPOLIA:
+        case dswap_sdk_core_1.ChainId.BNB:
+        case dswap_sdk_core_1.ChainId.OPTIMISM:
+        case dswap_sdk_core_1.ChainId.OPTIMISM_GOERLI:
+        case dswap_sdk_core_1.ChainId.OPTIMISM_SEPOLIA:
+        case dswap_sdk_core_1.ChainId.AVALANCHE:
+        case dswap_sdk_core_1.ChainId.BASE:
+        case dswap_sdk_core_1.ChainId.BASE_GOERLI:
+        case dswap_sdk_core_1.ChainId.ZORA:
+        case dswap_sdk_core_1.ChainId.ZORA_SEPOLIA:
+        case dswap_sdk_core_1.ChainId.ROOTSTOCK:
+        case dswap_sdk_core_1.ChainId.BLAST:
+        case dswap_sdk_core_1.ChainId.ARBITRUM_ONE:
+        case dswap_sdk_core_1.ChainId.ARBITRUM_GOERLI:
+        case dswap_sdk_core_1.ChainId.SEI_MAINNET:
+        case dswap_sdk_core_1.ChainId.ARBITRUM_SEPOLIA:
+            return bignumber_1.BigNumber.from(80000);
+        case dswap_sdk_core_1.ChainId.POLYGON:
+        case dswap_sdk_core_1.ChainId.POLYGON_MUMBAI:
+            return bignumber_1.BigNumber.from(80000);
+        case dswap_sdk_core_1.ChainId.CELO:
+        case dswap_sdk_core_1.ChainId.CELO_ALFAJORES:
+            return bignumber_1.BigNumber.from(80000);
+        case dswap_sdk_core_1.ChainId.GNOSIS:
+            return bignumber_1.BigNumber.from(80000);
+        case dswap_sdk_core_1.ChainId.MOONBEAM:
+            return bignumber_1.BigNumber.from(80000);
+    }
+};
+exports.COST_PER_HOP = COST_PER_HOP;
+const SINGLE_HOP_OVERHEAD = (_id) => {
+    return bignumber_1.BigNumber.from(15000);
+};
+exports.SINGLE_HOP_OVERHEAD = SINGLE_HOP_OVERHEAD;
+const TOKEN_OVERHEAD = (id, route) => {
+    const tokens = route.tokenPath;
+    let overhead = bignumber_1.BigNumber.from(0);
+    if (id == dswap_sdk_core_1.ChainId.MAINNET) {
+        // AAVE's transfer contains expensive governance snapshotting logic. We estimate
+        // it at around 150k.
+        if (tokens.some((t) => t.equals(providers_1.AAVE_MAINNET))) {
+            overhead = overhead.add(150000);
+        }
+        // LDO's reaches out to an external token controller which adds a large overhead
+        // of around 150k.
+        if (tokens.some((t) => t.equals(providers_1.LIDO_MAINNET))) {
+            overhead = overhead.add(150000);
+        }
+    }
+    return overhead;
+};
+exports.TOKEN_OVERHEAD = TOKEN_OVERHEAD;
+// TODO: change per chain
+const NATIVE_WRAP_OVERHEAD = (id) => {
+    switch (id) {
+        default:
+            return bignumber_1.BigNumber.from(27938);
+    }
+};
+exports.NATIVE_WRAP_OVERHEAD = NATIVE_WRAP_OVERHEAD;
+const NATIVE_UNWRAP_OVERHEAD = (id) => {
+    switch (id) {
+        default:
+            return bignumber_1.BigNumber.from(36000);
+    }
+};
+exports.NATIVE_UNWRAP_OVERHEAD = NATIVE_UNWRAP_OVERHEAD;
+const NATIVE_OVERHEAD = (chainId, amount, quote) => {
+    if (amount.isNative) {
+        // need to wrap eth in
+        return (0, exports.NATIVE_WRAP_OVERHEAD)(chainId);
+    }
+    if (quote.isNative) {
+        // need to unwrap eth out
+        return (0, exports.NATIVE_UNWRAP_OVERHEAD)(chainId);
+    }
+    return bignumber_1.BigNumber.from(0);
+};
+exports.NATIVE_OVERHEAD = NATIVE_OVERHEAD;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZ2FzLWNvc3RzLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiLi4vLi4vLi4vLi4vLi4vLi4vc3JjL3JvdXRlcnMvYWxwaGEtcm91dGVyL2dhcy1tb2RlbHMvdjMvZ2FzLWNvc3RzLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7OztBQUFBLHdEQUFxRDtBQUNyRCwrREFBc0U7QUFFdEUscURBQW1FO0FBR25FLDJDQUEyQztBQUM5QixRQUFBLG9CQUFvQixHQUFHLHFCQUFTLENBQUMsSUFBSSxDQUFDLENBQUMsQ0FBQyxDQUFDO0FBRXRELDZEQUE2RDtBQUN0RCxNQUFNLGNBQWMsR0FBRyxDQUFDLEVBQVcsRUFBYSxFQUFFO0lBQ3ZELFFBQVEsRUFBRSxFQUFFO1FBQ1YsS0FBSyx3QkFBTyxDQUFDLE9BQU8sQ0FBQztRQUNyQixLQUFLLHdCQUFPLENBQUMsTUFBTSxDQUFDO1FBQ3BCLEtBQUssd0JBQU8sQ0FBQyxPQUFPLENBQUM7UUFDckIsS0FBSyx3QkFBTyxDQUFDLFFBQVEsQ0FBQztRQUN0QixLQUFLLHdCQUFPLENBQUMsZUFBZSxDQUFDO1FBQzdCLEtBQUssd0JBQU8sQ0FBQyxnQkFBZ0IsQ0FBQztRQUM5QixLQUFLLHdCQUFPLENBQUMsR0FBRyxDQUFDO1FBQ2pCLEtBQUssd0JBQU8sQ0FBQyxTQUFTLENBQUM7UUFDdkIsS0FBSyx3QkFBTyxDQUFDLElBQUksQ0FBQztRQUNsQixLQUFLLHdCQUFPLENBQUMsV0FBVyxDQUFDO1FBQ3pCLEtBQUssd0JBQU8sQ0FBQyxJQUFJLENBQUM7UUFDbEIsS0FBSyx3QkFBTyxDQUFDLFlBQVksQ0FBQztRQUMxQixLQUFLLHdCQUFPLENBQUMsU0FBUyxDQUFDO1FBQ3ZCLEtBQUssd0JBQU8sQ0FBQyxLQUFLLENBQUM7UUFDbkIsS0FBSyx3QkFBTyxDQUFDLFlBQVksQ0FBQztRQUMxQixLQUFLLHdCQUFPLENBQUMsZUFBZSxDQUFDO1FBQzdCLEtBQUssd0JBQU8sQ0FBQyxnQkFBZ0I7WUFDM0IsT0FBTyxx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
