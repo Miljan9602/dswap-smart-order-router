@@ -50,7 +50,7 @@ export const NEW_QUOTER_V2_ADDRESSES = {
     [ChainId.BASE]: '0x222cA98F00eD15B1faE10B61c277703a194cf5d2',
     [ChainId.BLAST]: '0x9D0F15f2cf58655fDDcD1EE6129C547fDaeD01b1',
     [ChainId.ZORA]: '0x9D0F15f2cf58655fDDcD1EE6129C547fDaeD01b1',
-    [ChainId.SEI_MAINNET]: '0x38A60FaC6EA7e3be9eb96E55945c576E7c31dbe9'
+    [ChainId.SEI_MAINNET]: '0x58F738F3A2B4e9e0217f948eF07324d15eBF0b9a'
 };
 export const MIXED_ROUTE_QUOTER_V1_ADDRESSES = {};
 export const UNISWAP_MULTICALL_ADDRESSES = {
@@ -72,7 +72,7 @@ export const UNISWAP_MULTICALL_ADDRESSES = {
 };
 export const SWAP_ROUTER_02_ADDRESSES = (chainId) => {
     var _a;
-    return (_a = SWAP_ROUTER_02_ADDRESSES_HELPER(chainId)) !== null && _a !== void 0 ? _a : '0xFcB324f3FBc123e672c935d47A2176c0f13F00e3';
+    return (_a = SWAP_ROUTER_02_ADDRESSES_HELPER(chainId)) !== null && _a !== void 0 ? _a : '0x4c0b142FA93fF118474f69568953a2966f31a627';
 };
 export const ARB_GASINFO_ADDRESS = '0x000000000000000000000000000000000000006C';
 export function constructSameAddressMap(address, additionalNetworks = []) {
