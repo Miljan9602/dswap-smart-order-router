@@ -774,7 +774,8 @@ export async function getV2CandidatePools({
   if (
     tokenOut.symbol == 'WETH' ||
     tokenOut.symbol == 'WETH9' ||
-    tokenOut.symbol == 'ETH'
+    tokenOut.symbol == 'ETH' ||
+    tokenOut.symbol == 'WSEI'
   ) {
     // if it's eth we change the topN to 0, so we can break early from the loop.
     topNEthQuoteToken = 0;

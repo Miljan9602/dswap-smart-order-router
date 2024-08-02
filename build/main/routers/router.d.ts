@@ -91,6 +91,7 @@ export type SwapRoute = {
 };
 export type MethodParameters = SDKMethodParameters & {
     to: string;
+    calldata: string;
 };
 export type SwapToRatioRoute = SwapRoute & {
     optimalRatio: Fraction;

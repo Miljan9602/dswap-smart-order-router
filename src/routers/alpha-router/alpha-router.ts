@@ -125,7 +125,6 @@ import {
   IRouter,
   ISwapToRatio,
   MethodParameters,
-  MixedRoute,
   SwapAndAddConfig,
   SwapAndAddOptions,
   SwapAndAddParameters,
@@ -545,18 +544,18 @@ export class AlphaRouter
             },
             (_) => {
               return {
-                multicallChunk: 20,
+                multicallChunk: 10,
                 gasLimitPerCall: 1_000_000,
                 quoteMinSuccessRate: 0.1,
               }
             },
             {
               gasLimitOverride: 1_000_000,
-              multicallChunk: 20,
+              multicallChunk: 10,
             },
             {
               gasLimitOverride: 1_000_000,
-              multicallChunk: 20,
+              multicallChunk: 10,
             },
             {
               baseBlockOffset: -10,
@@ -1635,6 +1634,9 @@ export class AlphaRouter
       },
       'Routing across CachedRoute'
     );
+
+    console.log(mixedRouteGasModel)
+
     const quotePromises: Promise<GetQuotesResult>[] = [];
 
     const v3Routes = cachedRoutes.routes.filter(
@@ -1733,39 +1735,39 @@ export class AlphaRouter
     }
 
     if (mixedRoutes.length > 0) {
-      const mixedRoutesFromCache: MixedRoute[] = mixedRoutes.map(
-        (cachedRoute) => cachedRoute.route as MixedRoute
-      );
-      metric.putMetric(
-        'SwapRouteFromCache_Mixed_GetQuotes_Request',
-        1,
-        MetricLoggerUnit.Count
-      );
+      // const mixedRoutesFromCache: MixedRoute[] = mixedRoutes.map(
+      //   (cachedRoute) => cachedRoute.route as MixedRoute
+      // );
+      // metric.putMetric(
+      //   'SwapRouteFromCache_Mixed_GetQuotes_Request',
+      //   1,
+      //   MetricLoggerUnit.Count
+      // );
 
-      const beforeGetQuotes = Date.now();
+      // const beforeGetQuotes = Date.now();
 
-      quotePromises.push(
-        this.mixedQuoter
-          .getQuotes(
-            mixedRoutesFromCache,
-            amounts,
-            percents,
-            quoteToken,
-            tradeType,
-            routingConfig,
-            undefined,
-            mixedRouteGasModel
-          )
-          .then((result) => {
-            metric.putMetric(
-              `SwapRouteFromCache_Mixed_GetQuotes_Load`,
-              Date.now() - beforeGetQuotes,
-              MetricLoggerUnit.Milliseconds
-            );
-
-            return result;
-          })
-      );
+      // quotePromises.push(
+      //   this.mixedQuoter
+      //     .getQuotes(
+      //       mixedRoutesFromCache,
+      //       amounts,
+      //       percents,
+      //       quoteToken,
+      //       tradeType,
+      //       routingConfig,
+      //       undefined,
+      //       mixedRouteGasModel
+      //     )
+      //     .then((result) => {
+      //       metric.putMetric(
+      //         `SwapRouteFromCache_Mixed_GetQuotes_Load`,
+      //         Date.now() - beforeGetQuotes,
+      //         MetricLoggerUnit.Milliseconds
+      //       );
+      //
+      //       return result;
+      //     })
+      // );
     }
 
     const getQuotesResults = await Promise.all(quotePromises);

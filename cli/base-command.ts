@@ -401,7 +401,7 @@ export abstract class BaseCommand extends Command {
         )}`
       );
     }
-    this.logger.info(`Calldata: ${methodParameters?.calldata}`);
+    this.logger.info(`Calldataaaaa: ${methodParameters?.calldata}`);
     this.logger.info(`Value: ${methodParameters?.value}`);
     this.logger.info({
       blockNumber: blockNumber.toString(),
