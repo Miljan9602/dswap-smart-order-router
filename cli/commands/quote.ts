@@ -4,7 +4,7 @@ import { Protocol } from '@miljan9602/dswap-router-sdk';
 import {
   ChainId,
   Currency,
-  Percent, Token,
+  Percent,
   TradeType
 } from '@miljan9602/dswap-sdk-core';
 import dotenv from 'dotenv';
@@ -13,7 +13,6 @@ import _ from 'lodash';
 import {MapWithLowerCaseKey, nativeOnChain, parseAmount, SwapRoute, SwapType, } from '../../src';
 import { NATIVE_NAMES_BY_ID, TO_PROTOCOL } from '../../src/util';
 import { BaseCommand } from '../base-command';
-import { computePairAddress} from '@miljan9602/dswap-v2-sdk'
 
 dotenv.config();
 
@@ -79,27 +78,6 @@ export class Quote extends BaseCommand {
       gasToken,
       chainId
     } = flags;
-
-    let factoryAddress = '0x5D370a6189F89603FaB67e9C68383e63F7B6A262'
-    let tokenA = new Token(
-      ChainId.SEI_MAINNET,
-      '0x8B595a7B0CD41F3C0Dac80114f6A351274Be60e6',
-      6,
-      'dsUSDT',
-      'DS Tether'
-    )
-
-    let tokenB = new Token(
-      ChainId.SEI_MAINNET,
-      '0xf4855a5Aaf42bf27163d8981B16bb0eF80620550',
-      6,
-      'dsUSDC',
-      'DS USD Coin'
-    )
-
-    console.log({
-      "computePairAddress" : computePairAddress({ factoryAddress, tokenA, tokenB })
-    })
 
     const topNSecondHopForTokenAddress = new MapWithLowerCaseKey();
     topNSecondHopForTokenAddressRaw.split(',').forEach((entry) => {

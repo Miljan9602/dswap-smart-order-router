@@ -248,11 +248,6 @@ export class V3SubgraphProvider implements IV3SubgraphProvider {
 
     const beforeFilter = Date.now();
     const poolsSanitized = pools
-      .filter(
-        (pool) =>
-          parseInt(pool.liquidity) > 0 ||
-          parseFloat(pool.totalValueLockedETH) > this.trackedEthThreshold
-      )
       .map((pool) => {
         const { totalValueLockedETH, totalValueLockedUSD } = pool;
 

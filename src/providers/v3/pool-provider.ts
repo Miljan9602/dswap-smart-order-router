@@ -155,7 +155,6 @@ export class V3PoolProvider implements IV3PoolProvider {
       ) {
         const [token0, token1, fee] = sortedTokenPairs[i]!;
         invalidPools.push([token0, token1, fee]);
-
         continue;
       }
 
@@ -186,7 +185,7 @@ export class V3PoolProvider implements IV3PoolProvider {
               `${token0.symbol}/${token1.symbol}/${fee / 10000}%`
           ),
         },
-        `${invalidPools.length} pools invalid after checking their slot0 and liquidity results. Dropping.`
+        `${invalidPools.length} V3 pools invalid after checking their slot0 and liquidity results. Dropping.`
       );
     }
 
