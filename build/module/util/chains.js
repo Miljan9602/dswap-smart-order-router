@@ -364,7 +364,7 @@ export const WRAPPED_NATIVE_CURRENCY = {
     [ChainId.ZORA]: new Token(ChainId.ZORA, '0x4200000000000000000000000000000000000006', 18, 'WETH', 'Wrapped Ether'),
     [ChainId.ZORA_SEPOLIA]: new Token(ChainId.ZORA_SEPOLIA, '0x4200000000000000000000000000000000000006', 18, 'WETH', 'Wrapped Ether'),
     [ChainId.BLAST]: new Token(ChainId.BLAST, '0x4300000000000000000000000000000000000004', 18, 'WETH', 'Wrapped Ether'),
-    [ChainId.SEI_MAINNET]: new Token(ChainId.SEI_MAINNET, '0x027D2E627209f1cebA52ADc8A5aFE9318459b44B', 18, 'WSEI', 'Wrapped Sei'),
+    [ChainId.SEI_MAINNET]: new Token(ChainId.SEI_MAINNET, '0xe30fedd158a2e3b13e9badaeabafc5516e95e8c7', 18, 'WSEI', 'Wrapped Sei'),
 };
 function isMatic(chainId) {
     return chainId === ChainId.POLYGON_MUMBAI || chainId === ChainId.POLYGON;

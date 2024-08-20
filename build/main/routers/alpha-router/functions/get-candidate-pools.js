@@ -18,8 +18,8 @@ const baseTokensByChain = {
     // TODO: fix this
     [dswap_sdk_core_1.ChainId.SEI_MAINNET]: [
         util_1.WRAPPED_NATIVE_CURRENCY[dswap_sdk_core_1.ChainId.SEI_MAINNET],
-        new dswap_sdk_core_1.Token(dswap_sdk_core_1.ChainId.SEI_MAINNET, '0xf4855a5aaf42bf27163d8981b16bb0ef80620550', 6, 'USDC', 'USD//C'),
-        new dswap_sdk_core_1.Token(dswap_sdk_core_1.ChainId.SEI_MAINNET, '0x8b595a7b0cd41f3c0dac80114f6a351274be60e6', 6, 'USDT', 'Tether USD'),
+        new dswap_sdk_core_1.Token(dswap_sdk_core_1.ChainId.SEI_MAINNET, '0x3894085ef7ff0f0aedf52e2a2704928d1ec074f1', 6, 'USDC', 'USD//C'),
+        new dswap_sdk_core_1.Token(dswap_sdk_core_1.ChainId.SEI_MAINNET, '0xb75d0b03c06a926e488e2659df1a861f860bd3d1', 6, 'USDT', 'Tether USD'),
     ],
     [dswap_sdk_core_1.ChainId.MAINNET]: [
         token_provider_1.USDC_MAINNET,

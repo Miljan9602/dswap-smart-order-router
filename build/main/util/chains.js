@@ -370,7 +370,7 @@ exports.WRAPPED_NATIVE_CURRENCY = {
     [dswap_sdk_core_1.ChainId.ZORA]: new dswap_sdk_core_1.Token(dswap_sdk_core_1.ChainId.ZORA, '0x4200000000000000000000000000000000000006', 18, 'WETH', 'Wrapped Ether'),
     [dswap_sdk_core_1.ChainId.ZORA_SEPOLIA]: new dswap_sdk_core_1.Token(dswap_sdk_core_1.ChainId.ZORA_SEPOLIA, '0x4200000000000000000000000000000000000006', 18, 'WETH', 'Wrapped Ether'),
     [dswap_sdk_core_1.ChainId.BLAST]: new dswap_sdk_core_1.Token(dswap_sdk_core_1.ChainId.BLAST, '0x4300000000000000000000000000000000000004', 18, 'WETH', 'Wrapped Ether'),
-    [dswap_sdk_core_1.ChainId.SEI_MAINNET]: new dswap_sdk_core_1.Token(dswap_sdk_core_1.ChainId.SEI_MAINNET, '0x027D2E627209f1cebA52ADc8A5aFE9318459b44B', 18, 'WSEI', 'Wrapped Sei'),
+    [dswap_sdk_core_1.ChainId.SEI_MAINNET]: new dswap_sdk_core_1.Token(dswap_sdk_core_1.ChainId.SEI_MAINNET, '0xe30fedd158a2e3b13e9badaeabafc5516e95e8c7', 18, 'WSEI', 'Wrapped Sei'),
 };
 function isMatic(chainId) {
     return chainId === dswap_sdk_core_1.ChainId.POLYGON_MUMBAI || chainId === dswap_sdk_core_1.ChainId.POLYGON;

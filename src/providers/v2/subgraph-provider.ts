@@ -37,7 +37,7 @@ type RawV2SubgraphPool = {
 };
 
 const SUBGRAPH_URL_BY_CHAIN: { [chainId in ChainId]?: string } = {
-  [ChainId.SEI_MAINNET]: 'https://api.goldsky.com/api/public/project_clu1fg6ajhsho01x7ajld3f5a/subgraphs/dragonswap-staging-mainnet/1.0.0/gn',
+  [ChainId.SEI_MAINNET]: 'https://api.goldsky.com/api/public/project_clu1fg6ajhsho01x7ajld3f5a/subgraphs/dragonswap-prod/1.0.0/gn',
 };
 
 const PAGE_SIZE = 1000; // 1k is max possible query size from subgraph.

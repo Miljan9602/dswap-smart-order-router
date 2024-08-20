@@ -5,8 +5,8 @@ import _ from 'lodash';
 // @ts-ignore
 import { IERC20Metadata__factory } from '../types/v3/factories/IERC20Metadata__factory';
 import { log, WRAPPED_NATIVE_CURRENCY } from '../util';
-export const USDT_SEI_MAINNET = new Token(ChainId.SEI_MAINNET, '0x8b595a7b0cd41f3c0dac80114f6a351274be60e6', 6, 'USDT', 'Tether USD');
-export const USDC_SEI_MAINNET = new Token(ChainId.SEI_MAINNET, '0xf4855a5aaf42bf27163d8981b16bb0ef80620550', 6, 'USDC', 'USD//C');
+export const USDT_SEI_MAINNET = new Token(ChainId.SEI_MAINNET, '0xb75d0b03c06a926e488e2659df1a861f860bd3d1', 6, 'USDT', 'Tether USD');
+export const USDC_SEI_MAINNET = new Token(ChainId.SEI_MAINNET, '0x3894085ef7ff0f0aedf52e2a2704928d1ec074f1', 6, 'USDC', 'USD//C');
 // Some well known tokens on each chain for seeding cache / testing.
 export const USDC_MAINNET = new Token(ChainId.MAINNET, '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48', 6, 'USDC', 'USD//C');
 export const USDT_MAINNET = new Token(ChainId.MAINNET, '0xdAC17F958D2ee523a2206206994597C13D831ec7', 6, 'USDT', 'Tether USD');

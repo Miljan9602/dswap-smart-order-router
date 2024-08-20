@@ -524,7 +524,7 @@ export const WRAPPED_NATIVE_CURRENCY: { [chainId in ChainId]: Token } = {
   ),
   [ChainId.SEI_MAINNET]: new Token(
     ChainId.SEI_MAINNET,
-    '0x027D2E627209f1cebA52ADc8A5aFE9318459b44B',
+    '0xe30fedd158a2e3b13e9badaeabafc5516e95e8c7',
     18,
     'WSEI',
     'Wrapped Sei'

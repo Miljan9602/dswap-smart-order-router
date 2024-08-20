@@ -139,14 +139,14 @@ const baseTokensByChain: { [chainId in ChainId]?: Token[] } = {
     WRAPPED_NATIVE_CURRENCY[ChainId.SEI_MAINNET]!,
     new Token(
       ChainId.SEI_MAINNET,
-      '0xf4855a5aaf42bf27163d8981b16bb0ef80620550',
+      '0x3894085ef7ff0f0aedf52e2a2704928d1ec074f1',
       6,
       'USDC',
       'USD//C'
     ),
     new Token(
       ChainId.SEI_MAINNET,
-      '0x8b595a7b0cd41f3c0dac80114f6a351274be60e6',
+      '0xb75d0b03c06a926e488e2659df1a861f860bd3d1',
       6,
       'USDT',
       'Tether USD'
