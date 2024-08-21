@@ -37,7 +37,7 @@ type RawV2SubgraphPool = {
 };
 
 const SUBGRAPH_URL_BY_CHAIN: { [chainId in ChainId]?: string } = {
-  [ChainId.SEI_MAINNET]: 'https://api.goldsky.com/api/public/project_clu1fg6ajhsho01x7ajld3f5a/subgraphs/dragonswap-prod/1.0.0/gn',
+  [ChainId.SEI_MAINNET]: 'https://dev-service.dragonswap.app/api/v1/graph/factory/pairs',
 };
 
 const PAGE_SIZE = 1000; // 1k is max possible query size from subgraph.
@@ -65,7 +65,7 @@ export class V2SubgraphProvider implements IV2SubgraphProvider {
     private timeout = 360000,
     private rollback = true,
     private pageSize = PAGE_SIZE,
-    private trackedEthThreshold = 0,
+    private trackedEthThreshold = 30,
     private untrackedUsdThreshold = Number.MAX_VALUE,
     private subgraphUrlOverride?: string
   ) {
@@ -227,12 +227,17 @@ export class V2SubgraphProvider implements IV2SubgraphProvider {
     // Which helps filter pools with manipulated prices/liquidity.
 
     // TODO: Remove. Temporary fix to ensure tokens without trackedReserveETH are in the list.
-    const FEI = '0x956f47f50a910163d8bf957cf5846d573e7f87ca';
+    const BLACKLISTED_V2_TOKENS = [
+      '0xad0c5b8c5508ae8fa0195d5d633ad34ebc232437',
+      '0x6c155dc99e0a75302e23447e2ebaa4c5fa21dfcc'
+    ]
 
-    const tracked = pools.filter(pool =>
-      pool.token0.id == FEI ||
-      pool.token1.id == FEI ||
-      parseFloat(pool.trackedReserveETH) > this.trackedEthThreshold
+    const tracked = pools.filter(pool => {
+
+      if (BLACKLISTED_V2_TOKENS.includes(pool.token0.id) || BLACKLISTED_V2_TOKENS.includes(pool.token1.id)) return false
+
+      return parseFloat(pool.trackedReserveETH) > this.trackedEthThreshold
+      }
     );
 
     metric.putMetric(`V2SubgraphProvider.chain_${this.chainId}.getPools.filter.length`, tracked.length);
@@ -244,9 +249,10 @@ export class V2SubgraphProvider implements IV2SubgraphProvider {
     const beforeFilter = Date.now();
     const poolsSanitized: V2SubgraphPool[] = pools
       .filter((pool) => {
+
+        if (BLACKLISTED_V2_TOKENS.includes(pool.token0.id) || BLACKLISTED_V2_TOKENS.includes(pool.token1.id)) return false
+
         return (
-          pool.token0.id == FEI ||
-          pool.token1.id == FEI ||
           parseFloat(pool.trackedReserveETH) > this.trackedEthThreshold ||
           parseFloat(pool.reserveUSD) > this.untrackedUsdThreshold
         );

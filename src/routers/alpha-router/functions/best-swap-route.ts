@@ -68,6 +68,10 @@ export async function getBestSwapRoute(
   // Quotes can be null for a variety of reasons (not enough liquidity etc), so we drop them here too.
   const percentToQuotes: { [percent: number]: RouteWithValidQuote[] } = {};
   for (const routeWithValidQuote of routesWithValidQuotes) {
+
+    // Minimum swap.
+    if (routeWithValidQuote.percent < 20) continue;
+
     if (!percentToQuotes[routeWithValidQuote.percent]) {
       percentToQuotes[routeWithValidQuote.percent] = [];
     }

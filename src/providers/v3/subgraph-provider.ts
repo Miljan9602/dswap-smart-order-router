@@ -96,7 +96,7 @@ export class V3SubgraphProvider implements IV3SubgraphProvider {
     private retries = 2,
     private timeout = 30000,
     private rollback = true,
-    private trackedEthThreshold = 0,
+    private trackedEthThreshold = 30,
     private untrackedUsdThreshold = Number.MAX_VALUE,
     private subgraphUrlOverride?: string
   ) {
