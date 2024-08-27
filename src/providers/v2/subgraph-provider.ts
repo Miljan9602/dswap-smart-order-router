@@ -37,7 +37,7 @@ type RawV2SubgraphPool = {
 };
 
 const SUBGRAPH_URL_BY_CHAIN: { [chainId in ChainId]?: string } = {
-  [ChainId.SEI_MAINNET]: 'https://dev-service.dragonswap.app/api/v1/graph/factory/pairs',
+  [ChainId.SEI_MAINNET]: 'https://dev-api.dragonswap.app/api/v1/graph/factory/pairs',
 };
 
 const PAGE_SIZE = 1000; // 1k is max possible query size from subgraph.
