@@ -5,6 +5,7 @@ import JSBI from 'jsbi';
 import _ from 'lodash';
 import FixedReverseHeap from 'mnemonist/fixed-reverse-heap';
 import Queue from 'mnemonist/queue';
+import { BLACKLISTED_V2_TOKENS} from '../../../providers';
 
 import { IPortionProvider } from '../../../providers/portion-provider';
 import { HAS_L1_FEE, V2_SUPPORTED } from '../../../util';
@@ -68,6 +69,8 @@ export async function getBestSwapRoute(
   // Quotes can be null for a variety of reasons (not enough liquidity etc), so we drop them here too.
   const percentToQuotes: { [percent: number]: RouteWithValidQuote[] } = {};
   for (const routeWithValidQuote of routesWithValidQuotes) {
+
+    if (BLACKLISTED_V2_TOKENS.includes(routeWithValidQuote.route.input.address) || BLACKLISTED_V2_TOKENS.includes(routeWithValidQuote.route.output.address)) continue
 
     // Minimum swap.
     if (routeWithValidQuote.percent < 20) continue;

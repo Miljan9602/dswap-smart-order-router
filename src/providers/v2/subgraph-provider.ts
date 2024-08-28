@@ -8,6 +8,18 @@ import { log } from '../../util/log';
 import { metric } from '../../util/metric';
 import { ProviderConfig } from '../provider';
 
+export const BLACKLISTED_V2_TOKENS = [
+  '0xad0c5b8c5508ae8fa0195d5d633ad34ebc232437',
+  '0x6c155dc99e0a75302e23447e2ebaa4c5fa21dfcc',
+  '0x66491aa9e4a02f1da8e3e842bb47585e18957db3',
+  '0xc452f2f135a72b322bd453aa28d40adcb4bc9c41',
+  '0x1fa26eb21d8fd66ba8fe845d6e813135f893ba63',
+  '0x6c155dc99e0a75302e23447e2ebaa4c5fa21dfcc',
+  '0x9d9ee08d969557a35208d1c5cf0728c0a65aaff5',
+  '0xad0c5b8c5508ae8fa0195d5d633ad34ebc232437',
+  '0x79286845fbe1f47d2c9115e7918007290c548439'
+];
+
 export interface V2SubgraphPool {
   id: string;
   token0: {
@@ -227,17 +239,6 @@ export class V2SubgraphProvider implements IV2SubgraphProvider {
     // Which helps filter pools with manipulated prices/liquidity.
 
     // TODO: Remove. Temporary fix to ensure tokens without trackedReserveETH are in the list.
-    const BLACKLISTED_V2_TOKENS = [
-      '0xad0c5b8c5508ae8fa0195d5d633ad34ebc232437',
-      '0x6c155dc99e0a75302e23447e2ebaa4c5fa21dfcc',
-      '0x66491aa9e4a02f1da8e3e842bb47585e18957db3',
-      '0xc452f2f135a72b322bd453aa28d40adcb4bc9c41',
-      '0x1fa26eb21d8fd66ba8fe845d6e813135f893ba63',
-      '0x6c155dc99e0a75302e23447e2ebaa4c5fa21dfcc',
-      '0x9d9ee08d969557a35208d1c5cf0728c0a65aaff5',
-      '0xad0c5b8c5508ae8fa0195d5d633ad34ebc232437',
-      '0x79286845fbe1f47d2c9115e7918007290c548439'
-    ]
 
     const tracked = pools.filter(pool => {
 
