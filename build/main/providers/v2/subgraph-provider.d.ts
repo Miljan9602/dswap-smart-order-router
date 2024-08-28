@@ -1,5 +1,6 @@
 import { ChainId, Token } from '@miljan9602/dswap-sdk-core';
 import { ProviderConfig } from '../provider';
+export declare const BLACKLISTED_V2_TOKENS: string[];
 export interface V2SubgraphPool {
     id: string;
     token0: {
