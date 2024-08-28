@@ -37,7 +37,7 @@ type RawV2SubgraphPool = {
 };
 
 const SUBGRAPH_URL_BY_CHAIN: { [chainId in ChainId]?: string } = {
-  [ChainId.SEI_MAINNET]: 'https://dev-api.dragonswap.app/api/v1/graph/factory/pairs',
+  [ChainId.SEI_MAINNET]: 'https://sei-api.dragonswap.app/api/v1/graph/factory/pairs',
 };
 
 const PAGE_SIZE = 1000; // 1k is max possible query size from subgraph.
@@ -229,7 +229,8 @@ export class V2SubgraphProvider implements IV2SubgraphProvider {
     // TODO: Remove. Temporary fix to ensure tokens without trackedReserveETH are in the list.
     const BLACKLISTED_V2_TOKENS = [
       '0xad0c5b8c5508ae8fa0195d5d633ad34ebc232437',
-      '0x6c155dc99e0a75302e23447e2ebaa4c5fa21dfcc'
+      '0x6c155dc99e0a75302e23447e2ebaa4c5fa21dfcc',
+      '0x1fa26eb21d8fd66ba8fe845d6e813135f893ba63'
     ]
 
     const tracked = pools.filter(pool => {
