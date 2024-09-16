@@ -40,7 +40,7 @@
     "@miljan9602/dswap-universal-router-sdk": "https://github.com/miljan9602/dswap-universal-router-sdk#main",
     "@miljan9602/dswap-v2-sdk": "https://github.com/miljan9602/dswap-v2-sdk#main",
     "@miljan9602/dswap-v3-sdk": "https://github.com/miljan9602/dswap-v3-sdk#main",
-    "@dragonswap/swap-router-contracts": "git+ssh://git@github.com:dragonswap-app/swap-router-contracts.git",
+    "@dragonswap/swap-router-contracts": "github:dragonswap-app/swap-router-contracts#master",
 
     "@uniswap/token-lists": "^1.0.0-beta.31",
     "@uniswap/universal-router": "^1.6.0",
