@@ -174,10 +174,6 @@ export abstract class BaseQuoter<
         );
       }
 
-      console.log({
-        "getting____quotes": JSON.stringify(routesResult.routes),
-      })
-
       return this.getQuotes(
         routesResult.routes,
         amounts,

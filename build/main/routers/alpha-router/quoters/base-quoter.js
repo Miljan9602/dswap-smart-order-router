@@ -49,9 +49,7 @@ class BaseQuoter {
             else {
                 util_1.metric.putMetric(`${this.protocol}QuoterNoRoutesFound`, routesResult.routes.length, util_1.MetricLoggerUnit.Count);
             }
-            console.log({
-                "getting____quotes": JSON.stringify(routesResult.routes),
-            });
+
             return this.getQuotes(routesResult.routes, amounts, percents, quoteToken, tradeType, routingConfig, routesResult.candidatePools, gasModel, gasPriceWei);
         });
     }

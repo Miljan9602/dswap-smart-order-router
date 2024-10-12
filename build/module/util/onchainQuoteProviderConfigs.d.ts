@@ -6,7 +6,7 @@ export declare function constructSameRetryOptionsMap<T extends QuoteRetryOptions
 };
 export declare const DEFAULT_RETRY_OPTIONS: QuoteRetryOptions;
 export declare const RETRY_OPTIONS: {
-    [x: number]: import("async-retry").Options;
+    [x: number]: QuoteRetryOptions;
 };
 export declare const NETWORKS_WITH_SAME_BATCH_PARAMS: ChainId[];
 export declare function constructSameBatchParamsMap<T extends BatchParams>(batchParams: T, additionalNetworks?: ChainId[]): {
