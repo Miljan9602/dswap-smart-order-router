@@ -373,6 +373,9 @@ export abstract class BaseCommand extends Command {
     this.logger.info(`Best Route:`);
     this.logger.info(`${routeAmountsToString(routeAmounts)}`);
 
+    this.logger.info(`Quote toExact:`);
+    this.logger.info(`${quote.toExact()}`);
+
     this.logger.info(`\tRaw Quote Exact In:`);
     this.logger.info(
       `\t\t${quote.toFixed(Math.min(quote.currency.decimals, 2))}`
