@@ -72,8 +72,8 @@ export async function getBestSwapRoute(
 
     if (BLACKLISTED_V2_TOKENS.includes(routeWithValidQuote.route.input.address) || BLACKLISTED_V2_TOKENS.includes(routeWithValidQuote.route.output.address)) continue
 
-    // Minimum swap.
-    if (routeWithValidQuote.percent < 50) continue;
+    // Modify if needed.
+    // if (routeWithValidQuote.percent < 50) continue;
 
     if (!percentToQuotes[routeWithValidQuote.percent]) {
       percentToQuotes[routeWithValidQuote.percent] = [];

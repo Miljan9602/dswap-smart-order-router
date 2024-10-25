@@ -214,8 +214,7 @@ export class V3SubgraphProvider implements IV3SubgraphProvider {
           retries += 1;
           if (
             this.rollback &&
-            blockNumber &&
-            _.includes(err.message, 'indexed up to')
+            blockNumber
           ) {
             metric.putMetric(`V3SubgraphProvider.chain_${this.chainId}.getPools.indexError`, 1);
             blockNumber = blockNumber - 10;

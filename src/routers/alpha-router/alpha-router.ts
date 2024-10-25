@@ -125,6 +125,7 @@ import {
   IRouter,
   ISwapToRatio,
   MethodParameters,
+  MixedRoute,
   SwapAndAddConfig,
   SwapAndAddOptions,
   SwapAndAddParameters,
@@ -1735,39 +1736,39 @@ export class AlphaRouter
     }
 
     if (mixedRoutes.length > 0) {
-      // const mixedRoutesFromCache: MixedRoute[] = mixedRoutes.map(
-      //   (cachedRoute) => cachedRoute.route as MixedRoute
-      // );
-      // metric.putMetric(
-      //   'SwapRouteFromCache_Mixed_GetQuotes_Request',
-      //   1,
-      //   MetricLoggerUnit.Count
-      // );
+      const mixedRoutesFromCache: MixedRoute[] = mixedRoutes.map(
+        (cachedRoute) => cachedRoute.route as MixedRoute
+      );
+      metric.putMetric(
+        'SwapRouteFromCache_Mixed_GetQuotes_Request',
+        1,
+        MetricLoggerUnit.Count
+      );
 
-      // const beforeGetQuotes = Date.now();
+      const beforeGetQuotes = Date.now();
 
-      // quotePromises.push(
-      //   this.mixedQuoter
-      //     .getQuotes(
-      //       mixedRoutesFromCache,
-      //       amounts,
-      //       percents,
-      //       quoteToken,
-      //       tradeType,
-      //       routingConfig,
-      //       undefined,
-      //       mixedRouteGasModel
-      //     )
-      //     .then((result) => {
-      //       metric.putMetric(
-      //         `SwapRouteFromCache_Mixed_GetQuotes_Load`,
-      //         Date.now() - beforeGetQuotes,
-      //         MetricLoggerUnit.Milliseconds
-      //       );
-      //
-      //       return result;
-      //     })
-      // );
+      quotePromises.push(
+        this.mixedQuoter
+          .getQuotes(
+            mixedRoutesFromCache,
+            amounts,
+            percents,
+            quoteToken,
+            tradeType,
+            routingConfig,
+            undefined,
+            mixedRouteGasModel
+          )
+          .then((result) => {
+            metric.putMetric(
+              `SwapRouteFromCache_Mixed_GetQuotes_Load`,
+              Date.now() - beforeGetQuotes,
+              MetricLoggerUnit.Milliseconds
+            );
+
+            return result;
+          })
+      );
     }
 
     const getQuotesResults = await Promise.all(quotePromises);
