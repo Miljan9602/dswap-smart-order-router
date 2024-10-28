@@ -179,7 +179,7 @@ export class Quote extends BaseCommand {
             type: SwapType.SWAP_ROUTER_02,
             deadline: 100,
             recipient,
-            slippageTolerance: new Percent(5, 10_000),
+            slippageTolerance: new Percent(5, 100),
           }
           : undefined,
         {

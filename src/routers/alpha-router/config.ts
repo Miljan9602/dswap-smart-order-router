@@ -70,7 +70,7 @@ export const DEFAULT_ROUTING_CONFIG_BY_CHAIN = (
     default:
       return {
         v2PoolSelection: {
-          topN: 3,
+          topN: 4,
           topNDirectSwaps: 1,
           topNTokenInOut: 5,
           topNSecondHop: 2,
@@ -81,14 +81,14 @@ export const DEFAULT_ROUTING_CONFIG_BY_CHAIN = (
           topNWithBaseToken: 6,
         },
         v3PoolSelection: {
-          topN: 2,
-          topNDirectSwaps: 2,
-          topNTokenInOut: 3,
+          topN: 4,
+          topNDirectSwaps: 4,
+          topNTokenInOut: 4,
           topNSecondHop: 1,
           topNWithEachBaseToken: 3,
           topNWithBaseToken: 5,
         },
-        maxSwapsPerPath: 3,
+        maxSwapsPerPath: 5,
         minSplits: 1,
         maxSplits: 7,
         distributionPercent: 5,
