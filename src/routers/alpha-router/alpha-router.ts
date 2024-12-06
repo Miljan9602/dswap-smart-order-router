@@ -53,15 +53,14 @@ import {
   SwapRouterProvider,
   TokenPropertiesProvider,
   UniswapMulticallProvider,
-  URISubgraphProvider,
-  V2QuoteProvider,
+  V2QuoteProvider, V2SubgraphProvider,
   V2SubgraphProviderWithFallBacks, V3SubgraphProvider,
   V3SubgraphProviderWithFallBacks
 } from '../../providers';
 import {
   CachingTokenListProvider,
   ITokenListProvider
-} from '../../providers/caching-token-list-provider';
+} from '../../providers';
 import {
   GasPrice,
   IGasPriceProvider
@@ -95,7 +94,6 @@ import { SWAP_ROUTER_02_ADDRESSES, WRAPPED_NATIVE_CURRENCY } from '../../util';
 import { CurrencyAmount } from '../../util/amounts';
 import {
   ID_TO_CHAIN_ID,
-  ID_TO_NETWORK_NAME,
   V2_SUPPORTED
 } from '../../util/chains';
 import {
@@ -781,8 +779,6 @@ export class AlphaRouter
       );
     this.portionProvider = portionProvider ?? new PortionProvider();
 
-    const chainName = ID_TO_NETWORK_NAME(chainId);
-
     // ipfs urls in the following format: `https://cloudflare-ipfs.com/ipns/api.uniswap.org/v1/pools/${protocol}/${chainName}.json`;
     if (v2SubgraphProvider) {
       this.v2SubgraphProvider = v2SubgraphProvider;
@@ -790,13 +786,8 @@ export class AlphaRouter
       this.v2SubgraphProvider = new V2SubgraphProviderWithFallBacks([
         new CachingV2SubgraphProvider(
           chainId,
-          new URISubgraphProvider(
-            chainId,
-            `https://cloudflare-ipfs.com/ipns/api.uniswap.org/v1/pools/v2/${chainName}.json`,
-            undefined,
-            0
-          ),
-          new NodeJSCache(new NodeCache({ stdTTL: 300, useClones: false }))
+          new V2SubgraphProvider(chainId),
+          new NodeJSCache(new NodeCache({ stdTTL: 30, useClones: false }))
         ),
         new StaticV2SubgraphProvider(chainId),
       ]);
@@ -808,14 +799,8 @@ export class AlphaRouter
       this.v3SubgraphProvider = new V3SubgraphProviderWithFallBacks([
         new CachingV3SubgraphProvider(
           chainId,
-          // new URISubgraphProvider(
-          //   chainId,
-          //   `https://cloudflare-ipfs.com/ipns/api.uniswap.org/v1/pools/v3/${chainName}.json`,
-          //   undefined,
-          //   0
-          // ),
           new V3SubgraphProvider(chainId),
-          new NodeJSCache(new NodeCache({ stdTTL: 300, useClones: false }))
+          new NodeJSCache(new NodeCache({ stdTTL: 30, useClones: false }))
         ),
         new StaticV3SubgraphProvider(chainId, this.v3PoolProvider),
       ]);

@@ -75,6 +75,7 @@ export function computeAllRoutes<
   maxHops: number
 ): TRoute[] {
   const poolsUsed = Array<boolean>(pools.length).fill(false);
+
   const routes: TRoute[] = [];
 
   const computeRoutes = (

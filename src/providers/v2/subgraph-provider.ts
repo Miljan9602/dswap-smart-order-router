@@ -1,8 +1,6 @@
 import { ChainId, Token } from '@miljan9602/dswap-sdk-core';
 import retry from 'async-retry';
 import Timeout from 'await-timeout';
-import { gql, GraphQLClient } from 'graphql-request';
-import _ from 'lodash';
 
 import { log } from '../../util/log';
 import { metric } from '../../util/metric';
@@ -69,7 +67,9 @@ export interface IV2SubgraphProvider {
 }
 
 export class V2SubgraphProvider implements IV2SubgraphProvider {
-  private client: GraphQLClient;
+  // private client: GraphQLClient;
+  private subgraphUrl: string;
+
 
   constructor(
     private chainId: ChainId,
@@ -85,7 +85,7 @@ export class V2SubgraphProvider implements IV2SubgraphProvider {
     if (!subgraphUrl) {
       throw new Error(`No subgraph url for chain id: ${this.chainId}`);
     }
-    this.client = new GraphQLClient(subgraphUrl);
+    this.subgraphUrl = subgraphUrl;
   }
 
   public async getPools(
@@ -99,23 +99,7 @@ export class V2SubgraphProvider implements IV2SubgraphProvider {
       ? await providerConfig.blockNumber
       : undefined;
     // Due to limitations with the Subgraph API this is the only way to parameterize the query.
-    const query2 = gql`
-        query getPools($pageSize: Int!, $id: String) {
-            pairs(
-                first: $pageSize
-                ${blockNumber ? `block: { number: ${blockNumber} }` : ``}
-                where: { id_gt: $id }
-            ) {
-                id
-                token0 { id, symbol }
-                token1 { id, symbol }
-                totalSupply
-                trackedReserveETH
-                reserveETH
-                reserveUSD
-            }
-        }
-    `;
+
 
     let pools: RawV2SubgraphPool[] = [];
 
@@ -127,66 +111,31 @@ export class V2SubgraphProvider implements IV2SubgraphProvider {
       }.`
     );
 
-    let outerRetries = 0;
     await retry(
       async () => {
         const timeout = new Timeout();
 
         const getPools = async (): Promise<RawV2SubgraphPool[]> => {
-          let lastId = '';
+
           let pairs: RawV2SubgraphPool[] = [];
           let pairsPage: RawV2SubgraphPool[] = [];
-
-          // metrics variables
-          let totalPages = 0;
-          let retries = 0;
+          let hasMore = true;
+          let page = 1;
 
           do {
-            totalPages += 1;
 
-            await retry(
-              async () => {
-                const before = Date.now();
-                const poolsResult = await this.client.request<{
-                  pairs: RawV2SubgraphPool[];
-                }>(query2, {
-                  pageSize: this.pageSize,
-                  id: lastId,
-                });
-                metric.putMetric(
-                  `V2SubgraphProvider.chain_${this.chainId}.getPools.paginate.latency`,
-                  Date.now() - before
-                );
+            const url = this.subgraphUrl.concat("?page=" + page)
+            const poolsResult = await (await fetch(url)).json()
 
-                pairsPage = poolsResult.pairs;
+            pairsPage = poolsResult.data.pairs;
+            pairs = pairs.concat(pairsPage);
 
-                pairs = pairs.concat(pairsPage);
-                lastId = pairs[pairs.length - 1]!.id;
+            page++;
+            hasMore = pairsPage = poolsResult.data.has_more;
 
-                metric.putMetric(
-                  `V2SubgraphProvider.chain_${this.chainId}.getPools.paginate.pageSize`,
-                  pairsPage.length
-                );
-              },
-              {
-                retries: this.retries,
-                onRetry: (err, retry) => {
-                  pools = [];
-                  retries += 1;
-                  log.info(
-                    { err },
-                    `Failed request for page of pools from subgraph. Retry attempt: ${retry}`
-                  );
-                },
-              }
-            );
-          } while (pairsPage.length > 0);
+          }while (hasMore);
 
-          metric.putMetric(`V2SubgraphProvider.chain_${this.chainId}.getPools.paginate`, totalPages);
-          metric.putMetric(`V2SubgraphProvider.chain_${this.chainId}.getPools.pairs.length`, pairs.length);
-          metric.putMetric(`V2SubgraphProvider.chain_${this.chainId}.getPools.paginate.retries`, retries);
-
-          return pairs;
+          return pairs
         };
 
         /* eslint-disable no-useless-catch */
@@ -209,18 +158,15 @@ export class V2SubgraphProvider implements IV2SubgraphProvider {
       {
         retries: this.retries,
         onRetry: (err, retry) => {
-          outerRetries += 1;
           if (
             this.rollback &&
             blockNumber
           ) {
-            metric.putMetric(`V2SubgraphProvider.chain_${this.chainId}.getPools.indexError`, 1);
             blockNumber = blockNumber - 10;
             log.info(
               `Detected subgraph indexing error. Rolled back block number to: ${blockNumber}`
             );
           }
-          metric.putMetric(`V2SubgraphProvider.chain_${this.chainId}.getPools.timeout`, 1);
           pools = [];
           log.info(
             { err },
@@ -230,7 +176,6 @@ export class V2SubgraphProvider implements IV2SubgraphProvider {
       }
     );
 
-    metric.putMetric(`V2SubgraphProvider.chain_${this.chainId}.getPools.retries`, outerRetries);
 
     // Filter pools that have tracked reserve ETH less than threshold.
     // trackedReserveETH filters pools that do not involve a pool from this allowlist:

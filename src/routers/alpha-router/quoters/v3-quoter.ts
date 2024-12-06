@@ -188,6 +188,11 @@ export class V3Quoter extends BaseQuoter<V3CandidatePools, V3Route> {
     for (const routeWithQuote of routesWithQuotes) {
       const [route, quotes] = routeWithQuote;
 
+      console.log({
+        "ROUTE" : JSON.stringify(route),
+        "QUOTES" : JSON.stringify(quotes)
+      })
+
       for (let i = 0; i < quotes.length; i++) {
         const percent = percents[i]!;
         const amountQuote = quotes[i]!;

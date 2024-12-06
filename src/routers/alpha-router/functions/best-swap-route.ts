@@ -87,6 +87,20 @@ export async function getBestSwapRoute(
     MetricLoggerUnit.Milliseconds
   );
 
+  console.log({
+    "DATAAA" : JSON.stringify({
+      routeType,
+      percentToQuotes,
+      percents,
+      // chainId,
+      // routingConfig,
+      // portionProvider,
+      // v2GasModel,
+      // v3GasModel,
+      // swapConfig
+    })
+  })
+
   // Given all the valid quotes for each percentage find the optimal route.
   const swapRoute = await getBestSwapRouteBy(
     routeType,

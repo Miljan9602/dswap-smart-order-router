@@ -151,6 +151,13 @@ const baseTokensByChain: { [chainId in ChainId]?: Token[] } = {
       'USDT',
       'Tether USD'
     ),
+    new Token(
+      ChainId.SEI_MAINNET,
+      '0xe30fedd158a2e3b13e9badaeabafc5516e95e8c7',
+      18,
+      'WETH',
+      'Wrapped ETH'
+    ),
   ],
 
   [ChainId.MAINNET]: [
@@ -403,19 +410,16 @@ export async function getV3CandidatePools({
   const wrappedNativeAddress =
     WRAPPED_NATIVE_CURRENCY[chainId]?.address.toLowerCase();
 
+
   // Main reason we need this is for gas estimates, only needed if token out is not native.
   // We don't check the seen address set because if we've already added pools for getting native quotes
   // theres no need to add more.
   let top2EthQuoteTokenPool: V3SubgraphPool[] = [];
   if (
     (WRAPPED_NATIVE_CURRENCY[chainId]?.symbol ==
-      WRAPPED_NATIVE_CURRENCY[ChainId.MAINNET]?.symbol &&
-      tokenOut.symbol != 'WETH' &&
-      tokenOut.symbol != 'WETH9' &&
-      tokenOut.symbol != 'ETH') ||
-    (WRAPPED_NATIVE_CURRENCY[chainId]?.symbol == WMATIC_POLYGON.symbol &&
-      tokenOut.symbol != 'MATIC' &&
-      tokenOut.symbol != 'WMATIC')
+      WRAPPED_NATIVE_CURRENCY[ChainId.SEI_MAINNET]?.symbol &&
+      tokenOut.symbol != 'WSEI' &&
+      tokenOut.symbol != 'SEI')
   ) {
     top2EthQuoteTokenPool = _(subgraphPoolsSorted)
       .filter((subgraphPool) => {
