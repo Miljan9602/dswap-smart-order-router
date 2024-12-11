@@ -212,7 +212,7 @@ export class V2SubgraphProvider implements IV2SubgraphProvider {
           outerRetries += 1;
           if (
             this.rollback &&
-            blockNumber &&
+            blockNumber && err instanceof Error && 
             _.includes(err.message, 'indexed up to')
           ) {
             metric.putMetric(`V2SubgraphProvider.chain_${this.chainId}.getPools.indexError`, 1);

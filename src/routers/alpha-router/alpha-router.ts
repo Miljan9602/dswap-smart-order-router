@@ -1529,6 +1529,7 @@ export class AlphaRouter
       tokenOutHasFot,
       swapConfig
     );
+
     const portionQuoteAmount = this.portionProvider.getPortionQuoteAmount(
       tradeType,
       quote,
@@ -1635,8 +1636,6 @@ export class AlphaRouter
       'Routing across CachedRoute'
     );
 
-    console.log(mixedRouteGasModel)
-
     const quotePromises: Promise<GetQuotesResult>[] = [];
 
     const v3Routes = cachedRoutes.routes.filter(
@@ -1735,6 +1734,7 @@ export class AlphaRouter
     }
 
     if (mixedRoutes.length > 0) {
+      console.log(mixedRouteGasModel)
       // const mixedRoutesFromCache: MixedRoute[] = mixedRoutes.map(
       //   (cachedRoute) => cachedRoute.route as MixedRoute
       // );

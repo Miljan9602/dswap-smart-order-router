@@ -434,6 +434,8 @@ export class OnChainQuoteProvider implements IOnChainQuoteProvider {
       inputs.length / Math.ceil(inputs.length / multicallChunk)
     );
     const inputsChunked = _.chunk(inputs, normalizedChunk);
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     let quoteStates: QuoteBatchState[] = _.map(inputsChunked, (inputChunk) => {
       return {
         status: 'pending',
@@ -775,6 +777,8 @@ export class OnChainQuoteProvider implements IOnChainQuoteProvider {
           );
 
           const inputsChunked = _.chunk(inputs, normalizedChunk);
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
           quoteStates = _.map(inputsChunked, (inputChunk) => {
             return {
               status: 'pending',
