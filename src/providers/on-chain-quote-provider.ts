@@ -787,39 +787,39 @@ export class OnChainQuoteProvider implements IOnChainQuoteProvider {
           });
         }
 
-        if (failedQuoteStates.length > 0) {
-          // TODO: Work with Arbitrum to find a solution for making large multicalls with gas limits that always
-          // successfully.
-          //
-          // On Arbitrum we can not set a gas limit for every call in the multicall and guarantee that
-          // we will not run out of gas on the node. This is because they have a different way of accounting
-          // for gas, that seperates storage and compute gas costs, and we can not cover both in a single limit.
-          //
-          // To work around this and avoid throwing errors when really we just couldn't get a quote, we catch this
-          // case and return 0 quotes found.
-          if (
-            (this.chainId == ChainId.ARBITRUM_ONE ||
-              this.chainId == ChainId.ARBITRUM_GOERLI) &&
-            _.every(
-              failedQuoteStates,
-              (failedQuoteState) =>
-                failedQuoteState.reason instanceof ProviderGasError
-            ) &&
-            attemptNumber == this.retryOptions.retries
-          ) {
-            log.error(
-              `Failed to get quotes on Arbitrum due to provider gas error issue. Overriding error to return 0 quotes.`
-            );
-            return {
-              results: [],
-              blockNumber: BigNumber.from(0),
-              approxGasUsedPerSuccessCall: 0,
-            };
-          }
-          throw new Error(
-            `Failed to get ${failedQuoteStates.length} quotes. Reasons: ${reasonForFailureStr}`
-          );
-        }
+        // if (failedQuoteStates.length > 0) {
+        //   // TODO: Work with Arbitrum to find a solution for making large multicalls with gas limits that always
+        //   // successfully.
+        //   //
+        //   // On Arbitrum we can not set a gas limit for every call in the multicall and guarantee that
+        //   // we will not run out of gas on the node. This is because they have a different way of accounting
+        //   // for gas, that seperates storage and compute gas costs, and we can not cover both in a single limit.
+        //   //
+        //   // To work around this and avoid throwing errors when really we just couldn't get a quote, we catch this
+        //   // case and return 0 quotes found.
+        //   if (
+        //     (this.chainId == ChainId.ARBITRUM_ONE ||
+        //       this.chainId == ChainId.ARBITRUM_GOERLI) &&
+        //     _.every(
+        //       failedQuoteStates,
+        //       (failedQuoteState) =>
+        //         failedQuoteState.reason instanceof ProviderGasError
+        //     ) &&
+        //     attemptNumber == this.retryOptions.retries
+        //   ) {
+        //     log.error(
+        //       `Failed to get quotes on Arbitrum due to provider gas error issue. Overriding error to return 0 quotes.`
+        //     );
+        //     return {
+        //       results: [],
+        //       blockNumber: BigNumber.from(0),
+        //       approxGasUsedPerSuccessCall: 0,
+        //     };
+        //   }
+        //   throw new Error(
+        //     `Failed to get ${failedQuoteStates.length} quotes. Reasons: ${reasonForFailureStr}`
+        //   );
+        // }
 
         const callResults = _.map(
           successfulQuoteStates,
